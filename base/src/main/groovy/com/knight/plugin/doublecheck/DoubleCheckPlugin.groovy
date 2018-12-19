@@ -54,7 +54,7 @@ class DoubleCheckPlugin implements Plugin<Project> {
         }
         println("=====1 config name : ${DoubleCheckConfig.checkClassPath}")
         // 注册自己的Transform
-        def doubleCheckTransform = new DoubleCheckTransform(weavedVariantClassesMap)
+        def doubleCheckTransform = new DoubleCheckTransformk(weavedVariantClassesMap)
         android.registerTransform(doubleCheckTransform)
     }
 

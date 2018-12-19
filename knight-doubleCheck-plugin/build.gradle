@@ -36,8 +36,8 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //GVA的参数
-            pom.groupId = 'com.knight.transform'//组id
-            pom.artifactId = 'doublecheck'//名称
+            pom.groupId = 'com.knight.doublecheck'//组id
+            pom.artifactId = 'plugin'//名称
             pom.version = '1.0.0'//版本号
             repository(url: uri('../repo'))//发布的目录
         }

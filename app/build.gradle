@@ -4,13 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-
-//apply plugin: 'com.knight.transform.doublecheck'
-
 apply plugin: 'com.knight.transform'
 
-//apply plugin: 'com.knight.plugin.test'
-//apply plugin: 'com.knight.doublecheck.plugin.doublecheck'
 
 android {
     compileSdkVersion 28
@@ -29,29 +24,17 @@ android {
         }
     }
 }
-repositories {
-    flatDir { dirs 'libs' }
-    maven {
-        url uri('../repo')
-    }
-    google()
-    jcenter()
-    mavenCentral()
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0"
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation(name: 'view-1.0.0', ext: 'aar')
-//    api project(path: ':knight-transform')
-//    implementation 'com.example.library:view-1.0.0'
-//    api(name: 'transform-1.0.0', ext: 'jar')
+    implementation 'com.knight.doublecheck:library:1.0.0'
+    implementation 'com.knight:view:1.0.0'
 }
 
 
 doubleCheckConfig {
-    checkClassPath = 'com/example/knight/doublecheck/app/DoubleCheckTool'
-    checkClassAnnotation = 'com/example/knight/doublecheck/app/DoubleCheck'
-//    isScanJar = true
+    scanJar = true
 }

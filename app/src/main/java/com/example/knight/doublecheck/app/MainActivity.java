@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.library.MyButton;
 import com.example.library.MyView;
+import com.knight.doublecheck.library.DoubleCheck;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     int i = 0;
@@ -15,30 +19,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView textView = findViewById(R.id.text);
-        textView.setText("123");
-        Log.i("liyachao", "main ");
+        Button button = findViewById(R.id.text1);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @DoubleCheck
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
-                Log.i("liyachao", Log.getStackTraceString(new Throwable()));
+                Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
             }
         });
+        Button button1 = findViewById(R.id.text2);
 
-
-        MyView myView = findViewById(R.id.text1);
-
-        myView.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "click2222: " + (++i), Toast.LENGTH_LONG).show();
-
-
+                Toast.makeText(MainActivity.this, "double check: " + (++i), Toast.LENGTH_LONG).show();
             }
         });
+        MyButton button2 = findViewById(R.id.text3);
+
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @DoubleCheck
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
+//            }
+//        });
+
 
     }
 

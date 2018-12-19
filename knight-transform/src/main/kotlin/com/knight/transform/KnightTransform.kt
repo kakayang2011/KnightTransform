@@ -8,8 +8,8 @@ import transform.asm.BaseWeaver
 import org.apache.commons.io.FileUtils
 import java.io.File
 
-open class KnightTransform : Transform() {
-    private val logger = LoggerWrapper.getLogger(KnightTransform::class.java)
+open abstract class KnightTransform : Transform() {
+    private val logger = LoggerWrapper.getLogger(javaClass::class.java)
 
     private val waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool()
 
@@ -31,10 +31,13 @@ open class KnightTransform : Transform() {
         return TransformManager.SCOPE_FULL_PROJECT
     }
 
+    open fun isNeedScanJar(): Boolean {
+        return true
+    }
+
 
     override fun transform(transform: TransformInvocation) {
         val startTime = System.currentTimeMillis()
-
         transform.apply {
             if (!isIncremental) outputProvider.deleteAll()
             inputs.forEach {
@@ -48,7 +51,7 @@ open class KnightTransform : Transform() {
                     if (isIncremental) {
                         when (status) {
                             Status.ADDED, Status.CHANGED -> {
-                                transformJar(jarInput.file, dest)
+                                transformJar(jarInput.file, dest, isNeedScanJar())
                             }
                             Status.REMOVED -> {
                                 if (dest.exists()) {
@@ -59,7 +62,7 @@ open class KnightTransform : Transform() {
                             }
                         }
                     } else {
-                        transformJar(jarInput.file, dest)
+                        transformJar(jarInput.file, dest, isNeedScanJar())
                     }
                 }
 
@@ -103,9 +106,13 @@ open class KnightTransform : Transform() {
         println(name + " costed " + costTime + "ms")
     }
 
-    private fun transformJar(srcJar: File, destJar: File) {
+    private fun transformJar(srcJar: File, destJar: File, isNeedScan: Boolean) {
         waitableExecutor.execute {
-            baseWeaver.weavJar(srcJar, destJar)
+            if (isNeedScan) {
+                baseWeaver.weavJar(srcJar, destJar)
+            } else {
+                FileUtils.copyFile(srcJar, destJar)
+            }
         }
     }
 

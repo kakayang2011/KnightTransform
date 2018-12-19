@@ -1,1 +1,1 @@
-include ':app',  ':library',':knight-doubleCheck-plugin','knight-transform'
+include ':app',  ':library',':knight-doubleCheck-plugin',':knight-doubleCheck-library','knight-transform'

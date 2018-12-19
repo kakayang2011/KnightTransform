@@ -1,6 +1,6 @@
 package com.knight.transform.weave
 
-import com.knight.transform.java.outmap.KnightConfigManager
+import com.knight.transform.extension.KnightConfigManager
 
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.Label

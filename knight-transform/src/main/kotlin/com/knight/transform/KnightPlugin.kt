@@ -3,7 +3,9 @@ package com.knight.transform
 import com.android.build.api.transform.Transform
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.api.ApplicationVariantImpl
 import com.android.builder.model.AndroidProject
 import org.gradle.api.GradleException
@@ -22,14 +24,25 @@ abstract class KnightPlugin : Plugin<Project> {
             throw  GradleException("'com.android.application' or 'com.android.library' plugin required!")
         }
 
-        val android = project.extensions.getByType(AppExtension::class.java)
+        val aClass = if (project.plugins.hasPlugin(AppPlugin::class.java))
+            AppExtension::class.java
+        else LibraryExtension::class.java
+
+        val android = project.extensions.getByType(aClass)
+
         val weavedVariantClassesMap = LinkedHashMap<String, List<WeavedClass>>()
         if (isNeedPrintMapAndTaskCostTime) {
-            android.applicationVariants.all { variant ->
-                createWriteMappingTask(project, variant as ApplicationVariantImpl, weavedVariantClassesMap)
+            if (android is AppExtension) {
+                android.applicationVariants.all {
+                    createWriteMappingTask(project, it , weavedVariantClassesMap)
+                }
+            } else if (android is LibraryExtension) {
+                android.libraryVariants.all {
+                    createWriteMappingTask(project, it, weavedVariantClassesMap)
+                }
             }
+            createExtensions(project)
         }
-        createExtensions(project)
         transform = createTransform(project, weavedVariantClassesMap)
         android.registerTransform(transform)
     }
@@ -38,7 +51,7 @@ abstract class KnightPlugin : Plugin<Project> {
 
     abstract fun createTransform(project: Project, weavedVariantClassesMap: LinkedHashMap<String, List<WeavedClass>>): Transform
 
-    private fun createWriteMappingTask(project: Project, variant: ApplicationVariantImpl
+    private fun createWriteMappingTask(project: Project, variant: BaseVariant
                                        , weavedVariantClassesMap: LinkedHashMap<String, List<WeavedClass>>) {
         val mappingTaskName = "outputMappingFor${variant.name.capitalize()}"
         val myTask = project.tasks.getByName("transformClassesWith${transform.name}For${variant.name.capitalize()}")

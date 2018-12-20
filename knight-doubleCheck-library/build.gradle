@@ -48,3 +48,8 @@ uploadArchives {
         }
     }
 }
+
+apply plugin: 'com.knight.transform'
+doubleCheckConfig {
+    scanJar = true
+}

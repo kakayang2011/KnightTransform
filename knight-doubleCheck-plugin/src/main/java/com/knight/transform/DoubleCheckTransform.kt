@@ -8,7 +8,7 @@ import transform.KnightTransform
 import transform.task.WeavedClass
 
 class DoubleCheckTransform(val weavedVariantClassesMap: LinkedHashMap<String, List<WeavedClass>>
-                           , project: Project) : KnightTransform() {
+                           , project: Project) : KnightTransform(project) {
 
 
     val weaverClasses: ArrayList<WeavedClass> = java.util.ArrayList()

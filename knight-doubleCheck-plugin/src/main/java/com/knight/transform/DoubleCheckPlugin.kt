@@ -15,15 +15,12 @@ class DoubleCheckPlugin() : KnightPlugin() {
     override fun createExtensions(project: Project) {
         println("============1createExtensions")
         project.extensions.create("doubleCheckConfig", KnightConfig::class.java)
-        val android = project.extensions.getByType(AppExtension::class.java)
-        android.applicationVariants.all { variant ->
-            val config = KnightConfigManager.knightConfig
-            (project.extensions.getByName(EXTENSION_NAME) as KnightConfig).apply {
-                config.checkClassPath = checkClassPath
-                config.checkClassAnnotation = checkClassAnnotation
-                config.scanJar = scanJar
-                println("============1scanJar: $scanJar")
-            }
+        val config = KnightConfigManager.knightConfig
+        (project.extensions.getByName(EXTENSION_NAME) as KnightConfig).apply {
+            config.checkClassPath = checkClassPath
+            config.checkClassAnnotation = checkClassAnnotation
+            config.scanJar = scanJar
+            println("============1scanJar: $scanJar")
         }
     }
 

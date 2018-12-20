@@ -31,7 +31,7 @@ open class OutPutMappingTask : DefaultTask() {
         FileUtils.touch(mappingFile)
         val content = StringBuilder()
         (classes.get()[variantName.get()] as List<WeavedClass>).forEach {
-            it.takeIf {
+            it?.takeIf {
                 it.hasDoubleCheckMethod()
             }?.let {
                 val className = it.className

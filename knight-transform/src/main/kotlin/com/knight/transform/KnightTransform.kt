@@ -1,19 +1,24 @@
 package transform
 
 import com.android.build.api.transform.*
+import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.internal.LoggerWrapper
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.ide.common.internal.WaitableExecutor
 import transform.asm.BaseWeaver
 import org.apache.commons.io.FileUtils
+import org.gradle.api.Project
 import java.io.File
 
-open abstract class KnightTransform : Transform() {
+open abstract class KnightTransform(project: Project) : Transform() {
     private val logger = LoggerWrapper.getLogger(javaClass::class.java)
 
     private val waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool()
 
     protected lateinit var baseWeaver: BaseWeaver
+
+    protected val isLibrary = project.plugins.hasPlugin(LibraryPlugin::class.java)
 
     override fun getName(): String {
         return this.javaClass.simpleName
@@ -28,7 +33,7 @@ open abstract class KnightTransform : Transform() {
     }
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
-        return TransformManager.SCOPE_FULL_PROJECT
+        return if (isLibrary) TransformManager.PROJECT_ONLY else TransformManager.SCOPE_FULL_PROJECT
     }
 
     open fun isNeedScanJar(): Boolean {

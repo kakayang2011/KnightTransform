@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'com.knight.transform'
+//apply plugin: 'com.knight.transform'
 
 
 android {
@@ -35,6 +35,6 @@ dependencies {
 }
 
 
-doubleCheckConfig {
-    scanJar = true
-}
+//doubleCheckConfig {
+//    scanJar = true
+//}

@@ -12,12 +12,6 @@ open class BaseContext(val project: Project, val extension: BaseExtension) {
     val isLibrary = project.plugins.hasPlugin(LibraryPlugin::class.java)
     var weavedClassMap = ArrayList<WeavedClass>()
 
-    open fun isWeaveableClass(filePath: String): Boolean {
-        return filePath.endsWith(".class")
-//                && !filePath.contains("R$")
-//                && !filePath.contains("R.class")
-//                && !filePath.contains("BuildConfig.class")
-    }
 
 //    private fun getSdkJarDir(): String {
 //        val compileSdkVersion = android?.compileSdkVersion

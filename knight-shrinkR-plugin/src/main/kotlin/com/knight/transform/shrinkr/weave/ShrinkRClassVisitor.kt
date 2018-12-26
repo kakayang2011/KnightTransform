@@ -20,7 +20,7 @@ open class ShrinkRClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVi
 
     override fun visitField(access: Int, name: String?, desc: String?, signature: String?, value: Any?): FieldVisitor? {
         if (isRClass && context.containRField(className, name!!)/* && !context.shouldKeep(className, name)*/) {
-            println(String.format("Delete field = [ %s ] in R class = [ %s ]", name, className))
+//            println(String.format("Delete field = [ %s ] in R class = [ %s ]", name, className))
             return null
         } else if (isRClass) {
 //            println(String.format("Keep field = [ %s ] in R class = [ %s ]", name, className))

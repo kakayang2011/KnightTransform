@@ -17,7 +17,7 @@ open class DoubleCheckModifyClassAdapter(context: Context, cv: ClassVisitor) : B
             methodVisitor = ViewOnClickCheckMethodVisitor(context, methodVisitor)
 
 //            weavedClass.addDoubleCheckMethod(ASMUtils.convertSignature(name, desc))
-            println("--->name: $name")
+//            println("--->name: $name")
             weavedClass.addWeavedMethod(ASMUtils.convertSignature(name, desc))
         }
 

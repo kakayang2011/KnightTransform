@@ -17,10 +17,8 @@ class ShrinkRPlugin : KnightPlugin<ShrinkRExtension, Context>() {
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
     override fun createExtensions(): ShrinkRExtension {
-        println("============1createExtensions")
         project.extensions.create(EXTENSION_NAME, ShrinkRExtension::class.java)
         (project.extensions.getByName(EXTENSION_NAME) as ShrinkRExtension).apply {
-            println("============1scanJar: $isScanJar")
             context = Context(project, this)
             context.initWithWhiteList(keepList)
             return this

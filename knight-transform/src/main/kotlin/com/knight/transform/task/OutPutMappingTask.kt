@@ -25,7 +25,7 @@ open class OutPutMappingTask : DefaultTask() {
 
     @TaskAction
     fun writeMapping() {
-        var loggable = true
+        var loggable = false
         val mappingFile = outputMappingFile.get().asFile
 
         FileUtils.touch(mappingFile)
@@ -46,7 +46,7 @@ open class OutPutMappingTask : DefaultTask() {
             }
         }
         mappingFile.writeText(content.toString())
-        println("Success wrote TXT mapping report to file://${outputMappingFile}")
+//        println("Success wrote TXT mapping report to file://${outputMappingFile}")
 
     }
 

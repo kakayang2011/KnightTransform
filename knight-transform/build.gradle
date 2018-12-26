@@ -3,19 +3,19 @@ apply plugin: 'maven'
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation localGroovy()
+    api localGroovy()
     //gradle sdk
-    implementation gradleApi()
+    api gradleApi()
     //build tools
-    implementation 'com.android.tools.build:gradle:3.3.0-alpha13'
+    api 'com.android.tools.build:gradle:3.3.0-alpha13'
     //transform
-    implementation 'com.android.tools.build:transform-api:2.0.0-deprecated-use-gradle-api'
+    api 'com.android.tools.build:transform-api:2.0.0-deprecated-use-gradle-api'
     // 开源框架，io操作
-    implementation 'commons-io:commons-io:2.6'
+    api 'commons-io:commons-io:2.6'
 
-    implementation 'org.ow2.asm:asm:6.0'
-    implementation 'org.ow2.asm:asm-commons:6.0'
-    implementation 'org.ow2.asm:asm-util:6.0'
+    api 'org.ow2.asm:asm:6.2.1'
+    api 'org.ow2.asm:asm-commons:6.2'
+    api 'org.ow2.asm:asm-util:6.0'
 }
 
 
@@ -25,7 +25,7 @@ uploadArchives {
             //GVA的参数
             pom.groupId = 'com.knight'//组id
             pom.artifactId = 'transform'//名称
-            pom.version = '1.0.0'//版本号
+            pom.version = '1.0.1'//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }

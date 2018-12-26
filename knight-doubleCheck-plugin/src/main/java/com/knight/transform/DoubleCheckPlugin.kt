@@ -1,31 +1,49 @@
 package com.knight.transform
 
 import com.android.build.api.transform.Transform
-import com.android.build.gradle.AppExtension
-import com.knight.transform.extension.KnightConfig
-import com.knight.transform.extension.KnightConfigManager
+import com.android.build.gradle.TestedExtension
+import com.knight.transform.extension.DoubleCheckExtension
+import com.knight.transform.weave.DoubleCheckModifyClassAdapter
 import org.gradle.api.Project
-import transform.task.WeavedClass
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.ClassWriter
 
-class DoubleCheckPlugin() : KnightPlugin() {
+class DoubleCheckPlugin : KnightPlugin<DoubleCheckExtension, Context>() {
+
+
     private val EXTENSION_NAME = "doubleCheckConfig"
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
-
-    override fun createExtensions(project: Project) {
-        println("============1createExtensions")
-        project.extensions.create("doubleCheckConfig", KnightConfig::class.java)
-        val config = KnightConfigManager.knightConfig
-        (project.extensions.getByName(EXTENSION_NAME) as KnightConfig).apply {
-            config.checkClassPath = checkClassPath
-            config.checkClassAnnotation = checkClassAnnotation
-            config.scanJar = scanJar
-            println("============1scanJar: $scanJar")
+    override fun createExtensions(): DoubleCheckExtension {
+        project.extensions.create(EXTENSION_NAME, DoubleCheckExtension::class.java)
+        (project.extensions.getByName(EXTENSION_NAME) as DoubleCheckExtension).apply {
+            context = Context(project, this)
+            return this
         }
     }
 
-    override fun createTransform(project: Project, weavedVariantClassesMap: LinkedHashMap<String, List<WeavedClass>>): Transform {
-        println("============createTransform")
-        return DoubleCheckTransform(weavedVariantClassesMap, project)
+    override fun createScanClassVisitor(classWriter: ClassWriter): ClassVisitor? {
+        return null
     }
+
+    override fun createTransform(): Transform {
+        return DoubleCheckTransform(context, this)
+    }
+
+    override fun createWeaveClassVisitor(classWriter: ClassWriter): ClassVisitor {
+        return DoubleCheckModifyClassAdapter(context, classWriter)
+    }
+
+    override fun getContext(project: Project, extension: DoubleCheckExtension, android: TestedExtension): Context {
+        return Context(project, extension)
+    }
+
+    override fun isNeedScanClass(): Boolean {
+        return false
+    }
+
+    override fun isNeedScanWeaveRClass(): Boolean {
+        return false
+    }
+
 }

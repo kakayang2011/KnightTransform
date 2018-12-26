@@ -5,20 +5,20 @@ import java.util.LinkedHashSet
 
 class WeavedClass(val className: String) : Serializable {
 
-    val doubleCheckMethods = LinkedHashSet<String>()
+    val weavedMethods = LinkedHashSet<String>()
 
 
-    fun addDoubleCheckMethod(methodSignature: String) {
-        doubleCheckMethods.add(methodSignature)
+    fun addWeavedMethod(methodSignature: String) {
+        weavedMethods.add(methodSignature)
     }
 
 
-    fun getDoubleCheckMethods(): Set<String> {
-        return doubleCheckMethods
+    fun getWeavedMethods(): Set<String> {
+        return weavedMethods
     }
 
-    fun hasDoubleCheckMethod(): Boolean {
-        return doubleCheckMethods.size > 0
+    fun hasWeavedMethod(): Boolean {
+        return weavedMethods.size > 0
     }
 
 }

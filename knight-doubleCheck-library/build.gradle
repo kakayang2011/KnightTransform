@@ -49,7 +49,7 @@ uploadArchives {
     }
 }
 
-apply plugin: 'com.knight.transform'
-doubleCheckConfig {
-    scanJar = true
-}
+//apply plugin: 'com.knight.transform'
+//doubleCheckConfig {
+//    scanJar = true
+//}

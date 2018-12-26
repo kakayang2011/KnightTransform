@@ -1,1 +1,2 @@
 include ':app',  ':library',':knight-doubleCheck-plugin',':knight-doubleCheck-library','knight-transform'
+include ':knight-shrinkR-plugin'

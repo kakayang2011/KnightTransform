@@ -8,20 +8,7 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-    //build tools
-    implementation 'com.android.tools.build:gradle:3.3.0-alpha13'
-    //transform
-    implementation 'com.android.tools.build:transform-api:2.0.0-deprecated-use-gradle-api'
-    // 开源框架，可以对字节码进行编辑
-    implementation 'javassist:javassist:3.12.1.GA'
-    // 开源框架，io操作
-    implementation 'commons-io:commons-io:2.6'
-
-    implementation 'org.ow2.asm:asm:6.0'
-    implementation 'org.ow2.asm:asm-commons:6.0'
-    implementation 'org.ow2.asm:asm-util:6.0'
-
-    implementation 'com.knight:transform:1.0.0'
+    implementation 'com.knight:transform:1.0.1'
 }
 repositories {
     flatDir { dirs 'libs' }

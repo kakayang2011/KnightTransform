@@ -1,0 +1,33 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'kotlin'
+
+dependencies {
+
+    implementation localGroovy()
+    //gradle sdk
+    implementation gradleApi()
+
+    implementation 'com.knight:transform:1.0.1'
+}
+
+repositories {
+    flatDir { dirs 'libs' }
+    maven {
+        url uri('../repo')
+    }
+    google()
+    jcenter()
+    mavenCentral()
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //GVA的参数
+            pom.groupId = 'com.knight.shrinkR'//组id
+            pom.artifactId = 'plugin'//名称
+            pom.version = '1.0.0'//版本号
+            repository(url: uri('../repo'))//发布的目录
+        }
+    }
+}

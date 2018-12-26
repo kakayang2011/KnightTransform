@@ -10,8 +10,8 @@ import java.lang.StringBuilder
 
 open class OutPutMappingTask : DefaultTask() {
     init {
-        group = "doubleCheck"
-        description = "write double check mapping file"
+        group = "outputmapping"
+        description = "write mapping file"
     }
 
     @Input
@@ -21,7 +21,7 @@ open class OutPutMappingTask : DefaultTask() {
     var outputMappingFile = newOutputFile()
 
     @Internal
-    var classes = project.objects.property(LinkedHashMap::class.java)
+    var classes = project.objects.property(ArrayList::class.java)
 
     @TaskAction
     fun writeMapping() {
@@ -30,12 +30,13 @@ open class OutPutMappingTask : DefaultTask() {
 
         FileUtils.touch(mappingFile)
         val content = StringBuilder()
-        (classes.get()[variantName.get()] as List<WeavedClass>).forEach {
-            it?.takeIf {
-                it.hasDoubleCheckMethod()
+        if (loggable) println("outputtask size: ${classes.get().size}")
+        (classes.get() as ArrayList<WeavedClass>).forEach {
+            it?.takeIf { it ->
+                it?.hasWeavedMethod()
             }?.let {
                 val className = it.className
-                val doubleCheckMethods = it.doubleCheckMethods
+                val doubleCheckMethods = it.weavedMethods
                 content.append(className).append("\n")
                 if (loggable) println(className)
                 doubleCheckMethods.forEach {

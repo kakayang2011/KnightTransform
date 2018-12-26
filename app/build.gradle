@@ -4,7 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'com.knight.transform'
+apply plugin: 'com.knight.transform'
+apply plugin: 'com.knight.transform.shrinkr'
 
 
 android {
@@ -34,7 +35,32 @@ dependencies {
     implementation 'com.knight:view:1.0.0'
 }
 
-
 //doubleCheckConfig {
 //    scanJar = true
+//}
+
+//shrinkRConfig {
+//    keepList = [
+//            // your icon
+//            "R.drawable.icon",
+//            // for google-services.json
+//            "R.string.google_app_id",
+//            "R.string.gcm_defaultSenderId",
+//            "R.string.default_web_client_id",
+//            "R.string.ga_trackingId",
+//
+//            "R.string.firebase_database_url",
+//            "R.string.google_api_key",
+//            "R.string.google_crash_reporting_api_key",
+//            "R.dimen.navigation_bar_height",
+//            "R.bool.config_showNavigationBar",
+//            "R.drawable.src_res*",
+//            "R.drawable.bg_rectangular_button_grey",
+//            "R.drawable.splash_activity_banner",
+//            "R.string.CODE_PUSH_APK_BUILD_TIME",
+//            "R.dimen.navigation_bar_height",
+//            "R.dimen.status_bar_height",
+//            "R.bool.config_showNavigationBar",
+//            "R.raw.*"
+//    ]
 //}

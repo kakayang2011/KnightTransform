@@ -1,22 +1,24 @@
 package com.knight.transform.weave
 
-import com.knight.transform.extension.KnightConfigManager
+import com.knight.transform.Context
+import com.knight.transform.extension.DoubleCheckExtension
 
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
-open class ViewOnClickCheckMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM5, mv) {
+open class ViewOnClickCheckMethodVisitor(val context: Context, mv: MethodVisitor) : MethodVisitor(Opcodes.ASM5, mv) {
     var weaved: Boolean = false
+    val extension = context.extension as DoubleCheckExtension
     override fun visitCode() {
         super.visitCode()
         if (weaved) return
 
-        val annotationVisitor = mv.visitAnnotation("L" + KnightConfigManager.knightConfig.checkClassAnnotation + ";", false)
+        val annotationVisitor = mv.visitAnnotation("L" + extension.checkClassAnnotation + ";", false)
         annotationVisitor.visitEnd()
 
-        mv.visitMethodInsn(org.objectweb.asm.Opcodes.INVOKESTATIC, KnightConfigManager.knightConfig.checkClassPath, "isClickable", "()Z", false)
+        mv.visitMethodInsn(org.objectweb.asm.Opcodes.INVOKESTATIC, extension.checkClassPath, "isClickable", "()Z", false)
         val l1 = Label()
         mv.visitJumpInsn(org.objectweb.asm.Opcodes.IFNE, l1)
         mv.visitInsn(org.objectweb.asm.Opcodes.RETURN)
@@ -24,8 +26,9 @@ open class ViewOnClickCheckMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opco
     }
 
     override fun visitAnnotation(desc: String?, visible: Boolean): AnnotationVisitor {
-        weaved = desc == "L" + KnightConfigManager.knightConfig.checkClassAnnotation + ";"
+        weaved = desc == "L" + extension.checkClassAnnotation + ";"
         return super.visitAnnotation(desc, visible)
     }
+
 
 }

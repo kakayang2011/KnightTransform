@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 //apply plugin: 'com.knight.transform'
 //apply plugin: 'com.knight.transform.shrinkr'
-apply plugin: 'com.knight.transform.byteK'
+//apply plugin: 'com.knight.transform.byteK'
 
 
 
@@ -68,12 +68,12 @@ dependencies {
 //    ]
 //}
 
-apply plugin: 'com.knight.transform.config'
-config{
-    packageName="com.example.knight.doublecheck.app"
-    constantMap = [
-            "appName":"app",
-            "pluginName":"demo",
-            "version":"1.0.0"
-    ]
-}
+//apply plugin: 'com.knight.transform.config'
+//config{
+//    packageName="com.example.knight.doublecheck.app"
+//    constantMap = [
+//            "appName":"app",
+//            "pluginName":"demo",
+//            "version":"1.0.0"
+//    ]
+//}

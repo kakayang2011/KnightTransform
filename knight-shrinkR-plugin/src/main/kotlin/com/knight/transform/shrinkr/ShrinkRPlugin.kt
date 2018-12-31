@@ -1,6 +1,5 @@
 package com.knight.transform.shrinkr
 
-import com.android.build.api.transform.Transform
 import com.android.build.gradle.TestedExtension
 import com.knight.transform.KnightPlugin
 import com.knight.transform.shrinkr.extension.ShrinkRExtension
@@ -25,9 +24,6 @@ class ShrinkRPlugin : KnightPlugin<ShrinkRExtension, Context>() {
         }
     }
 
-    override fun createTransform(): Transform {
-        return ShrinkRTransform(context, this)
-    }
 
     override fun getContext(project: Project, extension: ShrinkRExtension, android: TestedExtension): Context {
         return Context(project, extension)
@@ -39,6 +35,10 @@ class ShrinkRPlugin : KnightPlugin<ShrinkRExtension, Context>() {
 
     override fun createWeaveClassVisitor(classWriter: ClassWriter): ClassVisitor {
         return ShrinkRClassVisitor(context, classWriter)
+    }
+
+    override fun getTransformName(): String {
+        return "ShrinkRTransform"
     }
 
     override fun isNeedScanClass(): Boolean {

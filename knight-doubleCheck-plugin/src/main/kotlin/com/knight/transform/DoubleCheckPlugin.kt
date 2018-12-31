@@ -26,8 +26,8 @@ class DoubleCheckPlugin : KnightPlugin<DoubleCheckExtension, Context>() {
         return null
     }
 
-    override fun createTransform(): Transform {
-        return DoubleCheckTransform(context, this)
+    override fun getTransformName(): String {
+        return "DoubleCheckTransform"
     }
 
     override fun createWeaveClassVisitor(classWriter: ClassWriter): ClassVisitor {

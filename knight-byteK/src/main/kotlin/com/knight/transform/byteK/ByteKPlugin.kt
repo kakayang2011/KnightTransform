@@ -17,7 +17,7 @@ import java.util.ArrayList
 class ByteKPlugin : KnightPlugin<ByteKExtension, Context>() {
 
 
-    private val EXTENSION_NAME = "shrinkRConfig"
+    private val EXTENSION_NAME = "ByteKConfig"
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
     override fun createExtensions(): ByteKExtension {

@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/knight-byteK" />
+            <option value="$PROJECT_DIR$/knight-config-plugin" />
             <option value="$PROJECT_DIR$/knight-doubleCheck-library" />
             <option value="$PROJECT_DIR$/knight-doubleCheck-plugin" />
             <option value="$PROJECT_DIR$/knight-shrinkR-plugin" />

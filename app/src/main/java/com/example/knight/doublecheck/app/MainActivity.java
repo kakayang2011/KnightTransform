@@ -2,6 +2,7 @@ package com.example.knight.doublecheck.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
         MyButton button2 = findViewById(R.id.text3);
-
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @DoubleCheck
 //            @Override

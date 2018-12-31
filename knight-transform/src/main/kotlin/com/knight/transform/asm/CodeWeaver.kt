@@ -1,5 +1,8 @@
 package com.knight.transform.asm
 
+import com.knight.transform.IPlugin
+import com.knight.transform.Interceptor.ClassVisitorChain
+import com.knight.transform.Interceptor.ClassVisitorParams
 import com.knight.transform.weave.ExtendClassWriter
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -16,7 +19,7 @@ import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 
-class CodeWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor) : IWeaver() {
+class CodeWeaver(iPlugin: IPlugin) : IWeaver(iPlugin = iPlugin) {
 
 
     private val ZERO = FileTime.fromMillis(0)!!
@@ -25,7 +28,7 @@ class CodeWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor) : I
         val classReader = ClassReader(intpuStream)
         val classWriter = ExtendClassWriter(classloader, classReader,
                 ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
-        val classVisitor = wrapClassWriter.invoke(classWriter)
+        val classVisitor = iPlugin.createWeaveClassVisitor(classWriter)
         try {
             classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES)
         } catch (e: Exception) {
@@ -35,6 +38,12 @@ class CodeWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor) : I
         return classWriter.toByteArray()
     }
 
+    fun weaveClassToByteChain(intpuStream: InputStream): ByteArray {
+        iPlugin.getWeaveClassVisitorInterceptor()?.let {
+            val chain = ClassVisitorChain(0, it, ClassVisitorParams(intpuStream.readBytes(), classloader))
+            return chain.transform()
+        } ?: return weaveClassToByteArray(intpuStream)
+    }
 
     override fun weaveJar(inputJar: File, outputJar: File) {
         val inputZip = ZipFile(inputJar)
@@ -46,7 +55,7 @@ class CodeWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor) : I
             if (!isWeaveableClass(outEntry.name.replace("/", "."))) {
                 newEntryContent = IOUtils.toByteArray(originalFile)
             } else {
-                newEntryContent = weaveClassToByteArray(originalFile)
+                newEntryContent = weaveClassToByteChain(originalFile)
             }
             val crc32 = CRC32()
             crc32.update(newEntryContent)
@@ -71,7 +80,7 @@ class CodeWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor) : I
         if (isWeaveableClass(inputFile.absolutePath.replace(inputBaseDir, "").replace("/", "."))) {
             FileUtils.touch(outputFile)
             val inputStream = FileInputStream(inputFile)
-            val bytes = weaveClassToByteArray(inputStream)
+            val bytes = weaveClassToByteChain(inputStream)
             val fos = FileOutputStream(outputFile)
             fos.write(bytes)
             fos.close()

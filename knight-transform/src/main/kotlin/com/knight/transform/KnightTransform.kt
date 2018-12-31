@@ -11,16 +11,16 @@ import com.knight.transform.asm.CodeWeaver
 import com.knight.transform.asm.ScanWeaver
 import transform.Utils.ASMUtils
 
-abstract class KnightTransform(private val context: BaseContext, val iPlugin: IPlugin) : Transform() {
+open class KnightTransform(private val context: BaseContext, val iPlugin: IPlugin, val getTransformName: () -> String) : Transform() {
 
-    private val codeWeaver: CodeWeaver = CodeWeaver(iPlugin::createWeaveClassVisitor)
+    private val codeWeaver: CodeWeaver = CodeWeaver(iPlugin)
     private val scanWeaver: ScanWeaver? = if (iPlugin.isNeedScanClass()) {
-        ScanWeaver(iPlugin::createScanClassVisitor)
+        ScanWeaver(iPlugin)
     } else null
 
 
     override fun getName(): String {
-        return this.javaClass.simpleName
+        return getTransformName.invoke()
     }
 
     override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {

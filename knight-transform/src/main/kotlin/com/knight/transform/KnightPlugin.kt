@@ -3,16 +3,12 @@ package com.knight.transform
 import com.android.build.api.transform.Transform
 import com.android.build.gradle.*
 import com.android.build.gradle.api.BaseVariant
-import com.android.build.gradle.internal.api.ApplicationVariantImpl
 import com.android.builder.model.AndroidProject
+import com.knight.transform.Interceptor.IClassVisitorInterceptor
 import com.knight.transform.Utils.Timer
 import org.gradle.api.*
-import org.objectweb.asm.ClassVisitor
-import org.objectweb.asm.ClassWriter
-import org.objectweb.asm.Opcodes
+import transform.KnightTransform
 import transform.task.OutPutMappingTask
-import transform.task.WeavedClass
-import java.util.concurrent.TimeUnit
 
 abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project>, IPlugin {
 
@@ -22,12 +18,11 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project
     protected lateinit var project: Project
     protected lateinit var android: TestedExtension
     protected abstract val isNeedPrintMapAndTaskCostTime: Boolean
-    private lateinit var transform: Transform
 
 
     abstract fun getContext(project: Project, extension: E, android: TestedExtension): C
     abstract fun createExtensions(): E
-
+    lateinit var transform: KnightTransform
 
     override fun apply(project: Project) {
         if (!project.plugins.hasPlugin(AppPlugin::class.java) && !project.plugins.hasPlugin(LibraryPlugin::class.java)) {
@@ -52,12 +47,20 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project
                 }
             }
         }
-        transform = createTransform()
+        transform = KnightTransform(context, this, ::getTransformName)
         android.registerTransform(transform)
     }
 
+    abstract fun getTransformName(): String
 
-    abstract fun createTransform(): Transform
+
+    override fun getScanClassVisitorInterceptor(): List<IClassVisitorInterceptor>? {
+        return null
+    }
+
+    override fun getWeaveClassVisitorInterceptor(): List<IClassVisitorInterceptor>? {
+        return null
+    }
 
 
     private fun createWriteMappingTask(variant: BaseVariant, context: BaseContext) {

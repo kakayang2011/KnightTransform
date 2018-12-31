@@ -1,5 +1,8 @@
 package com.knight.transform.asm
 
+import com.knight.transform.IPlugin
+import com.knight.transform.Interceptor.ClassVisitorChain
+import com.knight.transform.Interceptor.ClassVisitorParams
 import com.knight.transform.weave.ExtendClassWriter
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
@@ -12,14 +15,14 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 
-class ScanWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor?) : IWeaver() {
+class ScanWeaver(iPlugin: IPlugin) : IWeaver(iPlugin = iPlugin) {
 
     override fun weaveJar(inputJar: File, outputJar: File) {
         val inputZip = ZipFile(inputJar)
         inputZip.entries().toList().forEach { entry ->
             val outEntry = ZipEntry(entry.name)
             if (isWeaveableClass(outEntry.name.replace("/", "."))) {
-                scanWithByte(BufferedInputStream(inputZip.getInputStream(entry)))
+                scanWithByteChain(BufferedInputStream(inputZip.getInputStream(entry)))
             }
         }
     }
@@ -29,7 +32,7 @@ class ScanWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor?) : 
         if (!inputBaseDir.endsWith("/")) inputBaseDir += "/"
         if (inputFile.isFile && isWeaveableClass(inputFile.absolutePath.replace(inputBaseDir, "").replace("/", "."))) {
             val inputStream = FileInputStream(inputFile)
-            scanWithByte(inputStream)
+            scanWithByteChain(inputStream)
         }
     }
 
@@ -37,12 +40,20 @@ class ScanWeaver(private val wrapClassWriter: (ClassWriter) -> ClassVisitor?) : 
         val classReader = ClassReader(intputStream)
         val classWriter = ExtendClassWriter(classloader, classReader,
                 ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS)
-        val classVisitor = wrapClassWriter(classWriter)
+        val classVisitor = iPlugin.createScanClassVisitor(classWriter)
         try {
             classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES)
         } catch (e: Exception) {
             println("Exception occurred when visit code \n " + e.printStackTrace())
 
         }
+    }
+
+    fun scanWithByteChain(intputStream: InputStream) {
+        iPlugin.getScanClassVisitorInterceptor()?.let {
+            val chain = ClassVisitorChain(0, it, ClassVisitorParams(intputStream.readBytes(), classloader))
+            chain.transform()
+        } ?: scanWithByte(intputStream)
+
     }
 }

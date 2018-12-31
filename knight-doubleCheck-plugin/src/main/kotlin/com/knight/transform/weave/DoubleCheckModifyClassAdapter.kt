@@ -24,5 +24,9 @@ open class DoubleCheckModifyClassAdapter(context: Context, cv: ClassVisitor) : B
         return methodVisitor
     }
 
+    override fun visitEnd() {
+        super.visitEnd()
+
+    }
 
 }

@@ -37,13 +37,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
         MyButton button2 = findViewById(R.id.text3);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @DoubleCheck
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
-//            }
-//        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @DoubleCheck
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

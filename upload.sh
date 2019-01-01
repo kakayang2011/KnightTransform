@@ -8,7 +8,6 @@ do
     version=${list[$i]}
     moduleName=${moduleList[$i]}
     echo "this word is $version"
-    # 查找TOOL_VERSION字符
     origin=`grep ${version} gradle.properties | awk '{print $1}'`
     notNeedChange=`grep ${version} gradle.properties | cut -d '.' -f 1`
     secondVersion=`grep ${version} gradle.properties | cut -d '.' -f 2`

@@ -1,6 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'kotlin'
+apply plugin: 'com.novoda.bintray-release'//添加
 
 dependencies {
 
@@ -8,7 +9,7 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
 
-//k     implementation "com.knight:transform:$TRANSFORM_VERSION"
+     implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 
 repositories {
@@ -25,9 +26,17 @@ uploadArchives {
         mavenDeployer {
             //GVA的参数
             pom.groupId = 'com.knight.shrinkR'//组id
-            pom.artifactId = 'plugin'//名称
+            pom.artifactId = 'shrinkR'//名称
             pom.version = SHINKR_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }
+}
+
+publish {
+    userOrg = 'knight'//bintray.com用户名
+    groupId = 'com.knight.shrinkR'//jcenter上的路径
+    artifactId = 'shrinkR'//项目名称
+    publishVersion = SHINKR_VERSION //版本号
+    desc = 'the function of this plugin is shrink R*.class'//描述，不重要
 }

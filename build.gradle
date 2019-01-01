@@ -10,8 +10,9 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-rc03'
+        classpath "com.android.tools.build:gradle:$BUILD_GRADLE_VERION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
+        classpath 'com.novoda:bintray-release:0.8.1'
 //k        classpath "com.knight.doublecheck:plugin:$DOUBLECHECK_VERSION"
 //k        classpath "com.knight.shrinkR:plugin:$SHINKR_VERSION"
 //k        classpath "com.knight.config:plugin:$CONFIG_VERSION"
@@ -28,6 +29,10 @@ allprojects {
         }
         google()
         jcenter()
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
     }
 }
 

@@ -9,7 +9,7 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
 
-     implementation "com.knight:transform:$TRANSFORM_VERSION"
+     //k implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 
 repositories {
@@ -26,7 +26,7 @@ uploadArchives {
         mavenDeployer {
             //GVA的参数
             pom.groupId = 'com.knight.byteK'//组id
-            pom.artifactId = 'plugin'//名称
+            pom.artifactId = 'byteK'//名称
             pom.version = BTYEK_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }

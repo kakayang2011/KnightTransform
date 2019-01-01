@@ -38,6 +38,7 @@ do
     else
         echo "Failed~~~~ please wait~~"
         sed -i "" "s/${str}/${origin}/g" gradle.properties
+        rm -f log.txt
         exit 1
      fi
     rm -f log.txt

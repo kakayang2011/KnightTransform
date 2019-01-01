@@ -2,7 +2,7 @@
 
 echo "begin init project~~"
 
-list="knight-transform knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin knight-config-plugin knight-doubleCheck-library"
+list="knight-transform knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin knight-config-plugin knight-doubleCheck-library library"
 
 for state in ${list}
 do
@@ -13,6 +13,7 @@ do
     if [[ ${buildResult} =~ "BUILD FAILED" ]]
     then
         echo "please check your project"
+        rm -f log.txt
         exit 1
     fi
     rm -f log.txt

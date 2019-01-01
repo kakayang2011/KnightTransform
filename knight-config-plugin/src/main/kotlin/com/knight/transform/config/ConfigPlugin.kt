@@ -32,7 +32,7 @@ class ConfigPlugin : Plugin<Project> {
                 createJavaConfig(it, config)
             }
             // 找到系统的buildConfig Task
-            val generateBuildConfigTask = project.tasks.getByName(it.variantData.scope.taskContainer.generateBuildConfigTask?.name)
+            val generateBuildConfigTask = project.tasks.getByName(it.variantData.scope.generateBuildConfigTask.name)
             //自己的Config Task 依赖于系统的Config Task
             generateBuildConfigTask.let {
                 buildConfigTask.dependsOn(it)

@@ -9,7 +9,7 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
 
-     implementation "com.knight:transform:$TRANSFORM_VERSION"
+     //k implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 
 repositories {

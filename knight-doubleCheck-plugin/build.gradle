@@ -9,7 +9,7 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-     implementation "com.knight:transform:$TRANSFORM_VERSION"
+     //k implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 repositories {
     flatDir { dirs 'libs' }

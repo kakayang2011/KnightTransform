@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 echo "begin init project~~"
 
 list="knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin knight-config-plugin app"

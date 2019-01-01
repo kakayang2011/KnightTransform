@@ -4,9 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//k apply plugin: 'com.knight.transform'
-//k apply plugin: 'com.knight.transform.shrinkr'
-//k apply plugin: 'com.knight.transform.byteK'
+//k  apply plugin: 'com.knight.transform'
+//k  apply plugin: 'com.knight.transform.shrinkr'
+//k  apply plugin: 'com.knight.transform.byteK'
 
 
 
@@ -26,21 +26,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0"
-    compile 'com.android.support:design:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11"
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-//k    implementation 'com.knight.doublecheck:library:1.0.0'
-//k    implementation 'com.knight:view:1.0.0'
+//k     implementation "com.knight.doublecheck:library:$DOUBLECHECK_LIBRARY_VERSION"
+//k     implementation "com.knight:view:$VIEW_LIBRARY"
 }
 
-//doubleCheckConfig {
-//    scanJar = true
-//}
+//k doubleCheckConfig {
+//k     scanJar = true
+//k }
 
 //shrinkRConfig {
 //    keepList = [

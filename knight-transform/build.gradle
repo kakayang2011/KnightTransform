@@ -25,7 +25,7 @@ uploadArchives {
             //GVA的参数
             pom.groupId = 'com.knight'//组id
             pom.artifactId = 'transform'//名称
-            pom.version = '1.0.2'//版本号
+            pom.version = TRANSFORM_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }

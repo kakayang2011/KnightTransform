@@ -8,7 +8,7 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-//k    implementation 'com.knight:transform:1.0.2'
+//k     implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 repositories {
     flatDir { dirs 'libs' }
@@ -25,7 +25,7 @@ uploadArchives {
             //GVA的参数
             pom.groupId = 'com.knight.doublecheck'//组id
             pom.artifactId = 'plugin'//名称
-            pom.version = '1.0.0'//版本号
+            pom.version = DOUBLECHECK_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }

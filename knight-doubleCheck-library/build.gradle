@@ -43,7 +43,7 @@ uploadArchives {
             //GVA的参数
             pom.groupId = 'com.knight.doublecheck'//组id
             pom.artifactId = 'library'//名称
-            pom.version = '1.0.0'//版本号
+            pom.version = DOUBLECHECK_LIBRARY_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }

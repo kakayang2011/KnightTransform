@@ -107,6 +107,14 @@ dependencies {
 
 ```
 
+# How to run this Demo
+
+I have already finish a script that can build aar, and upload to local ,you need run this script in your terminal, just like this :
+
+```
+./init.sh
+```
+If there no errors in the compliation process, you can run "app" to your Phone, and check the different.
 
 # TO BE CONTUNUE
 

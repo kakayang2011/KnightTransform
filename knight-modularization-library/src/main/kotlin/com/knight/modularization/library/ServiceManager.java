@@ -13,16 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceManager1 {
+public class ServiceManager {
+    private static final String TAG = "ServiceManager";
     private ArrayList<Application> moduleApplications = new ArrayList<>();
 
     private HashMap<Class, Class> serviceImplMap = new HashMap<>();
 
     private HashMap<Class, Object> serviceImplInstanceMap = new HashMap<>();
 
-    private ServiceManager1() {
-        moduleApplications.add(new Application());
-        serviceImplMap.put(String.class,String.class);
+    private ServiceManager() {
     }
 
     public void attachBaseContext(Context context) {
@@ -40,7 +39,7 @@ public class ServiceManager1 {
                 e.printStackTrace();
             }
         }
-        Log.i("lyc", "attachBaseContext: " + moduleApplications.size());
+        Log.d(TAG, "attachBaseContext: " + moduleApplications.size());
 
     }
 
@@ -48,7 +47,7 @@ public class ServiceManager1 {
         for (Application app : moduleApplications) {
             app.onCreate();
         }
-        Log.i("lyc", "onCreate: " + moduleApplications.size());
+        Log.d(TAG, "onCreate: " + moduleApplications.size());
 
     }
 
@@ -79,7 +78,7 @@ public class ServiceManager1 {
 
     public synchronized <T> T getService(Class<T> routerType) {
         T requiredRouter = null;
-        Log.i("lyc", "getService: " + serviceImplMap.size());
+        Log.d(TAG, "getService: " + serviceImplMap.size());
 
         if (!get().serviceImplInstanceMap.containsKey(routerType)) {
             try {
@@ -102,11 +101,11 @@ public class ServiceManager1 {
         return serviceImplMap;
     }
 
-    public static ServiceManager1 get() {
+    public static ServiceManager get() {
         return SingletonHolder.INSTANCE;
     }
 
     static class SingletonHolder {
-        static ServiceManager1 INSTANCE = new ServiceManager1();
+        static ServiceManager INSTANCE = new ServiceManager();
     }
 }

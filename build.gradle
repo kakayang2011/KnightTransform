@@ -12,11 +12,13 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$BUILD_GRADLE_VERION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.novoda:bintray-release:0.9'
           classpath "com.knight.doublecheck:doublecheck:$DOUBLECHECK_VERSION"
           classpath "com.knight.shrinkR:shrinkR:$SHINKR_VERSION"
           classpath "com.knight.config:plugin:$CONFIG_VERSION"
           classpath "com.knight.byteK:byteK:$BTYEK_VERSION"
+        classpath "com.knight.modularization:modularization:$MODULARIZATION_VERSION"
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

@@ -1,6 +1,7 @@
 package com.example.knight.doublecheck.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import com.example.library.MyButton;
 import com.example.library.MyView;
 import com.knight.doublecheck.library.DoubleCheck;
+import com.knight.modularization.library.ServiceManager;
+import com.knight.module1.Module1Activity;
+import com.knight.module1.Module1Service;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     int i = 0;
@@ -19,31 +23,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        Button button = new Button(this);
+        setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.text1);
 
         button.setOnClickListener(new View.OnClickListener() {
             @DoubleCheck
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
+                Module1Service service = ServiceManager.get().getService(Module1Service.class);
+                if (service != null) {
+                    service.startModule1Activity(MainActivity.this);
+                }
+
+//                com.knight.module1.BuildConfig
             }
         });
-//        Button button1 = findViewById(R.id.text2);
-//        button1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "double check: " + (++i), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//        MyButton button2 = findViewById(R.id.text3);
-//        button2.setOnClickListener(new View.OnClickListener() {
-//            @DoubleCheck
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
-//            }
-//        });
+        Button button1 = findViewById(R.id.text2);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "double check: " + (++i), Toast.LENGTH_LONG).show();
+            }
+        });
+        MyButton button2 = findViewById(R.id.text3);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @DoubleCheck
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

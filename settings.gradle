@@ -2,3 +2,4 @@ include ':app',  ':library',':knight-doubleCheck-plugin',':knight-doubleCheck-li
 include ':knight-shrinkR-plugin'
 include ':knight-config-plugin'
 include ':knight-byteK'
+include ':knight-modularization-plugin'

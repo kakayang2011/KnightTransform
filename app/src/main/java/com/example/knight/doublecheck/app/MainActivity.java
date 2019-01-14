@@ -19,8 +19,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.text1);
+//        setContentView(R.layout.activity_main);
+        Button button = new Button(this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @DoubleCheck
@@ -29,21 +29,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
             }
         });
-        Button button1 = findViewById(R.id.text2);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "double check: " + (++i), Toast.LENGTH_LONG).show();
-            }
-        });
-        MyButton button2 = findViewById(R.id.text3);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @DoubleCheck
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
-            }
-        });
+//        Button button1 = findViewById(R.id.text2);
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "double check: " + (++i), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        MyButton button2 = findViewById(R.id.text3);
+//        button2.setOnClickListener(new View.OnClickListener() {
+//            @DoubleCheck
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
+//            }
+//        });
 
 
     }

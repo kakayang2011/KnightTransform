@@ -18,10 +18,10 @@ open class ViewOnClickCheckMethodVisitor(val context: Context, mv: MethodVisitor
         val annotationVisitor = mv.visitAnnotation("L" + extension.checkClassAnnotation + ";", false)
         annotationVisitor.visitEnd()
 
-        mv.visitMethodInsn(org.objectweb.asm.Opcodes.INVOKESTATIC, extension.checkClassPath, "isClickable", "()Z", false)
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, extension.checkClassPath, "isClickable", "()Z", false)
         val l1 = Label()
-        mv.visitJumpInsn(org.objectweb.asm.Opcodes.IFNE, l1)
-        mv.visitInsn(org.objectweb.asm.Opcodes.RETURN)
+        mv.visitJumpInsn(Opcodes.IFNE, l1)
+        mv.visitInsn(Opcodes.RETURN)
         mv.visitLabel(l1)
     }
 

@@ -3,6 +3,7 @@ package com.knight.modularization
 import com.android.build.gradle.TestedExtension
 import com.knight.modularization.extension.ModularizationExtension
 import com.knight.modularization.weave.FindTargetClassAdapter
+import com.knight.modularization.weave.WeaveCodeClassVisitor
 import com.knight.transform.KnightPlugin
 import org.gradle.api.Project
 import org.objectweb.asm.ClassVisitor
@@ -23,7 +24,7 @@ class ModularizationPlugin : KnightPlugin<ModularizationExtension, Context>() {
     }
 
     override fun createScanClassVisitor(classWriter: ClassWriter): ClassVisitor? {
-        return null
+        return FindTargetClassAdapter(context, classWriter)
     }
 
     override fun getTransformName(): String {
@@ -31,15 +32,16 @@ class ModularizationPlugin : KnightPlugin<ModularizationExtension, Context>() {
     }
 
     override fun createWeaveClassVisitor(classWriter: ClassWriter): ClassVisitor {
-        return FindTargetClassAdapter(context, classWriter)
+        return WeaveCodeClassVisitor(context, classWriter)
     }
+
 
     override fun getContext(project: Project, extension: ModularizationExtension, android: TestedExtension): Context {
         return Context(project, extension)
     }
 
     override fun isNeedScanClass(): Boolean {
-        return false
+        return true
     }
 
     override fun isNeedScanWeaveRClass(): Boolean {

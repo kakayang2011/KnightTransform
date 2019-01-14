@@ -9,7 +9,7 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-      implementation "com.knight:transform:$TRANSFORM_VERSION"
+    implementation "com.knight:transform:$TRANSFORM_VERSION"
 }
 repositories {
     flatDir { dirs 'libs' }
@@ -24,9 +24,9 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //GVA的参数
-            pom.groupId = 'com.knight.doublecheck'//组id
-            pom.artifactId = 'doublecheck'//名称
-            pom.version = DOUBLECHECK_VERSION//版本号
+            pom.groupId = 'com.knight.modularization'//组id
+            pom.artifactId = 'modularization'//名称
+            pom.version = MODULARIZATION_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }
@@ -36,6 +36,6 @@ publish {
     userOrg = 'knight'//bintray.com用户名
     groupId = 'com.knight.doublecheck'//jcenter上的路径
     artifactId = 'doublecheck'//项目名称
-    publishVersion = DOUBLECHECK_VERSION //版本号
+    publishVersion = MODULARIZATION_VERSION //版本号
     desc = 'the function of this plugin is double click check'//描述，不重要
 }

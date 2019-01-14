@@ -26,6 +26,7 @@ class WeaveCodeClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVisit
     override fun visitMethod(access: Int, name: String?, descriptor: String?, signature: String?, exceptions: Array<out String>?): MethodVisitor {
         val visitMethod = super.visitMethod(access, name, descriptor, signature, exceptions)
         if (isAppModule) {
+            println("modularization: application -> $className")
             when (name + descriptor) {
                 "onCreate()V" -> return AddCallAppInjectMethodVisitor(context, visitMethod, "onCreate", "()V", false, false)
                 "attachBaseContext(Landroid/content/Context;)V" -> return AddCallAppInjectMethodVisitor(context, visitMethod, "attachBaseContext", "(Landroid/content/Context;)V", true, false)
@@ -37,7 +38,8 @@ class WeaveCodeClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVisit
         }
 
         if (isServiceManager && access == 2 && name == "<init>" && descriptor == "()V") {
-            return AddCodeToConstructorVisitor(context,visitMethod)
+            println("modularization: serviceManager -> $className")
+            return AddCodeToConstructorVisitor(context, visitMethod)
         }
         return visitMethod
 

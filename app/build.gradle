@@ -8,7 +8,7 @@ apply plugin: 'kotlin-android-extensions'
    apply plugin: 'com.knight.transform.shrinkr'
    apply plugin: 'com.knight.transform.byteK'
 
-apply plugin: 'com.knight.component'
+//apply plugin: 'com.knight.component'
 
 
 android {

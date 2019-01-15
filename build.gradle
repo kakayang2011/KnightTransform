@@ -16,7 +16,7 @@ buildscript {
           classpath "com.knight.shrinkR:shrinkR:$SHINKR_VERSION"
 //          classpath "com.knight.config:plugin:$CONFIG_VERSION"
           classpath "com.knight.bytek:bytek:$BTYEK_VERSION"
-        classpath "com.knight.component:component:$COMPONENT_VERSION"
+//        classpath "com.knight.component:component:$COMPONENT_VERSION"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

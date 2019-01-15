@@ -17,8 +17,16 @@ elif [[ $name == "shrinkr" ]]
 then
    moduleName="knight-shrinkR-plugin"
    version="SHINKR_VERSION"
+elif [[ $name == "component" ]]
+then
+   moduleName="knight-component-plugin"
+   version="COMPONENT_VERSION"
+elif [[ $name == "componentlibrary" ]]
+then
+   moduleName="knight-component-library"
+   version="COMPONENT_LIBRARY_VERSION"
 else
-   echo "please input ./upload [transform | bytek | doublecheck | shinkr] "
+   echo "please input ./upload [transform | bytek | doublecheck | shrinkr | component | componentlibrary] "
    exit 1
 fi
 

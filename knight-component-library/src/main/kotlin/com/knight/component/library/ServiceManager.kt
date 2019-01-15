@@ -80,6 +80,8 @@ class ServiceManager {
                 Log.i(TAG, "getService3: $this")
                 serviceImplInstanceMap[classType] = this as Any
             }
-        } ?: throw RuntimeException("no ${classType.name} type, please checkout your code~~~")
+        } ?: Log.e(TAG, "no ${classType.name} type, please checkout your code~~~")
+
+        return null
     }
 }

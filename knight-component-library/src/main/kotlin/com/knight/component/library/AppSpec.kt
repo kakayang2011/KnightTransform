@@ -1,4 +1,4 @@
-package com.knight.modularization.library
+package com.knight.component.library
 
 @Retention(AnnotationRetention.BINARY)
 annotation class AppSpec

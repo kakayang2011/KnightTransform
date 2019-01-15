@@ -24,9 +24,9 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //GVA的参数
-            pom.groupId = 'com.knight.modularization'//组id
-            pom.artifactId = 'modularization'//名称
-            pom.version = MODULARIZATION_VERSION//版本号
+            pom.groupId = 'com.knight.component'//组id
+            pom.artifactId = 'component'//名称
+            pom.version = COMPONENT_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }
     }
@@ -34,8 +34,8 @@ uploadArchives {
 
 publish {
     userOrg = 'knight'//bintray.com用户名
-    groupId = 'com.knight.doublecheck'//jcenter上的路径
-    artifactId = 'doublecheck'//项目名称
-    publishVersion = MODULARIZATION_VERSION //版本号
+    groupId = 'com.knight.component'//jcenter上的路径
+    artifactId = 'component'//项目名称
+    publishVersion = COMPONENT_VERSION //版本号
     desc = 'the function of this plugin is double click check'//描述，不重要
 }

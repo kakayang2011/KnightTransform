@@ -1,4 +1,4 @@
-package com.knight.modularization.library
+package com.knight.component.library
 
 import android.app.Application
 import android.content.Context

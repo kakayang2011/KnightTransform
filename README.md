@@ -38,7 +38,7 @@ dependencies {
     }
 ```
 
-Add the following code to your **module's** build.gradle
+Add the following code to your **module's** build.gradle.
 
 ```gradle
 ...

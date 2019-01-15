@@ -1,14 +1,14 @@
-package com.knight.modularization.weave
+package com.knight.component.weave
 
-import com.knight.modularization.Context
-import com.knight.modularization.extension.ModularizationExtension
+import com.knight.component.Context
+import com.knight.component.extension.ComponentExtension
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
 class AddCallAppInjectMethodVisitor(val context: Context, mv: MethodVisitor,
                                     val methodName: String, val methodDes: String,
                                     val aLoad1: Boolean, val iLoad1: Boolean) : MethodVisitor(Opcodes.ASM5, mv) {
-    val extension = context.extension as ModularizationExtension
+    val extension = context.extension as ComponentExtension
 
     override fun visitInsn(opcode: Int) {
         when (opcode) {

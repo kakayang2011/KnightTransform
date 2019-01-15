@@ -1,4 +1,4 @@
-package com.knight.modularization
+package com.knight.component
 
 import com.android.build.gradle.AppExtension
 import com.knight.transform.BaseContext

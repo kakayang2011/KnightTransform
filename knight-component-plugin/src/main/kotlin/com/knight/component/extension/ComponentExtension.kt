@@ -1,12 +1,12 @@
-package com.knight.modularization.extension
+package com.knight.component.extension
 
 import com.knight.transform.BaseExtension
 
-open class ModularizationExtension(var modulePath: String = "com/knight/modularization/library/ModuleSpec",
-                                   var appPath: String = "com/knight/modularization/library/AppSpec",
-                                   var serviceImpl: String = "com/knight/modularization/library/ServiceImpl",
-                                   var serviceManagerPath: String = "com/knight/modularization/library/ServiceManager",
-                                   var serviceImplMapName: String = "serviceImplMap",
-                                   var serviceApplicationListName: String = "moduleApplications"
+open class ComponentExtension(var modulePath: String = "com/knight/component/library/ModuleSpec",
+                              var appPath: String = "com/knight/component/library/AppSpec",
+                              var serviceImpl: String = "com/knight/component/library/ServiceImpl",
+                              var serviceManagerPath: String = "com/knight/component/library/ServiceManager",
+                              var serviceImplMapName: String = "serviceImplMap",
+                              var serviceApplicationListName: String = "moduleApplications"
 ) : BaseExtension()
 

@@ -1,14 +1,14 @@
-package com.knight.modularization.weave
+package com.knight.component.weave
 
-import com.knight.modularization.Context
-import com.knight.modularization.extension.ModularizationExtension
+import com.knight.component.Context
+import com.knight.component.extension.ComponentExtension
 import com.knight.transform.weave.BaseClassVisitor
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 
 class WeaveCodeClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVisitor<Context>(context, cv) {
-    val extension = context.extension as ModularizationExtension
+    val extension = context.extension as ComponentExtension
 
     var isAppModule = false
     var isServiceManager = false

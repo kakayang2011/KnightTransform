@@ -1,23 +1,23 @@
-package com.knight.modularization
+package com.knight.component
 
 import com.android.build.gradle.TestedExtension
-import com.knight.modularization.extension.ModularizationExtension
-import com.knight.modularization.weave.FindTargetClassAdapter
-import com.knight.modularization.weave.WeaveCodeClassVisitor
+import com.knight.component.extension.ComponentExtension
+import com.knight.component.weave.FindTargetClassAdapter
+import com.knight.component.weave.WeaveCodeClassVisitor
 import com.knight.transform.KnightPlugin
 import org.gradle.api.Project
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
 
-class ModularizationPlugin : KnightPlugin<ModularizationExtension, Context>() {
+class ComponentPlugin : KnightPlugin<ComponentExtension, Context>() {
 
 
-    private val EXTENSION_NAME = "modularizationConfig"
+    private val EXTENSION_NAME = "componentConfig"
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
-    override fun createExtensions(): ModularizationExtension {
-        project.extensions.create(EXTENSION_NAME, ModularizationExtension::class.java)
-        (project.extensions.getByName(EXTENSION_NAME) as ModularizationExtension).apply {
+    override fun createExtensions(): ComponentExtension {
+        project.extensions.create(EXTENSION_NAME, ComponentExtension::class.java)
+        (project.extensions.getByName(EXTENSION_NAME) as ComponentExtension).apply {
             context = Context(project, this)
             return this
         }
@@ -28,7 +28,7 @@ class ModularizationPlugin : KnightPlugin<ModularizationExtension, Context>() {
     }
 
     override fun getTransformName(): String {
-        return "ModularizationTransform"
+        return "ComponentTransform"
     }
 
     override fun createWeaveClassVisitor(classWriter: ClassWriter): ClassVisitor {
@@ -36,7 +36,7 @@ class ModularizationPlugin : KnightPlugin<ModularizationExtension, Context>() {
     }
 
 
-    override fun getContext(project: Project, extension: ModularizationExtension, android: TestedExtension): Context {
+    override fun getContext(project: Project, extension: ComponentExtension, android: TestedExtension): Context {
         return Context(project, extension)
     }
 

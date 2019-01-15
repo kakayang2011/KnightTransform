@@ -30,15 +30,6 @@ class AddCodeToConstructorVisitor(val context: Context, mv: MethodVisitor) : Met
         super.visitInsn(opcode)
     }
 
-    /**
-     *  ALOAD 0
-    GETFIELD com/knight/modularization/library/ServiceManager.moduleApplications : Ljava/util/ArrayList;
-    NEW android/app/Application
-    DUP
-    INVOKESPECIAL android/app/Application.<init> ()V
-    INVOKEVIRTUAL java/util/ArrayList.add (Ljava/lang/Object;)Z
-    POP
-     */
     private fun insertApplicationAdd(applicationName: String) {
         println("modularization: insertApplicationAdd -> $applicationName ")
         mv.visitVarInsn(Opcodes.ALOAD, 0)
@@ -50,16 +41,6 @@ class AddCodeToConstructorVisitor(val context: Context, mv: MethodVisitor) : Met
         mv.visitInsn(Opcodes.POP)
     }
 
-    /**
-     *  ALOAD 0
-    GETFIELD com/knight/modularization/library/ServiceManager.serviceImplInstanceMap : Ljava/util/HashMap;
-    GETSTATIC kotlin/jvm/internal/StringCompanionObject.INSTANCE : Lkotlin/jvm/internal/StringCompanionObject;
-    INVOKEVIRTUAL java/lang/Object.getClass ()Ljava/lang/Class;
-    GETSTATIC kotlin/jvm/internal/StringCompanionObject.INSTANCE : Lkotlin/jvm/internal/StringCompanionObject;
-    INVOKEVIRTUAL java/lang/Object.getClass ()Ljava/lang/Class;
-    INVOKEVIRTUAL java/util/HashMap.put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-    POP
-     */
     private fun insertRoutersPut(router: String, impl: String) {
         println("modularization: insertCode -> $router ; $impl")
         mv.visitVarInsn(Opcodes.ALOAD, 0)

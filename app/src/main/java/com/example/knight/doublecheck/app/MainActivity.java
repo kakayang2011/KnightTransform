@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
-                Module1Service service = ServiceManager.get().getService(Module1Service.class);
+                Module1Service service = ServiceManager.getIns().getService(Module1Service.class);
                 if (service != null) {
                     service.startModule1Activity(MainActivity.this);
                 }

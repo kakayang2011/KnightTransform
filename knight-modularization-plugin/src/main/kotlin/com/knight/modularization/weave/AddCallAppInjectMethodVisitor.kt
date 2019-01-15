@@ -18,7 +18,7 @@ class AddCallAppInjectMethodVisitor(val context: Context, mv: MethodVisitor,
             Opcodes.LRETURN,
             Opcodes.DRETURN,
             Opcodes.RETURN -> {
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, extension.serviceManagerPath, "get", "()L${extension.serviceManagerPath};", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, extension.serviceManagerPath, "getIns", "()L${extension.serviceManagerPath};", false)
                 if (aLoad1) {
                     mv.visitVarInsn(Opcodes.ALOAD, 1)
                 }

@@ -2,7 +2,7 @@ package com.knight.module1
 
 import android.content.Context
 import android.content.Intent
-import com.knight.modularization.library.ServiceImpl
+import com.knight.component.library.ServiceImpl
 
 @ServiceImpl
 class Module1ServiceImpl : Module1Service {

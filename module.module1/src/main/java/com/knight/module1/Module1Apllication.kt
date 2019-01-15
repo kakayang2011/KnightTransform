@@ -3,7 +3,7 @@ package com.knight.module1
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import com.knight.modularization.library.ModuleSpec
+import com.knight.component.library.ModuleSpec
 
 @ModuleSpec
 class Module1Apllication : Application() {

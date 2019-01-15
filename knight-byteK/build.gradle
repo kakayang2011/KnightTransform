@@ -25,8 +25,8 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //GVA的参数
-            pom.groupId = 'com.knight.byteK'//组id
-            pom.artifactId = 'byteK'//名称
+            pom.groupId = 'com.knight.bytek'//组id
+            pom.artifactId = 'bytek'//名称
             pom.version = BTYEK_VERSION//版本号
             repository(url: uri('../repo'))//发布的目录
         }

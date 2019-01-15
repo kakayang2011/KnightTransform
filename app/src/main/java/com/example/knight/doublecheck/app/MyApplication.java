@@ -3,7 +3,8 @@ package com.example.knight.doublecheck.app;
 import android.app.Application;
 import android.content.Context;
 
-import com.knight.modularization.library.AppSpec;
+import com.knight.component.library.AppSpec;
+
 
 @AppSpec
 public class MyApplication extends Application {

@@ -42,11 +42,6 @@ dependencies {
       implementation "com.knight.doublecheck:doublechecklibrary:$DOUBLECHECK_LIBRARY_VERSION"
       implementation "com.knight:view:$VIEW_LIBRARY"
     implementation "com.knight.component:componentlibrary:$COMPONENT_LIBRARY_VERSION"
-    implementation("com.knight:module1:1.0.0"){
-        exclude group: 'com.knight.componentlibrary', module:'component'
-    }
-
-
 }
 
 // doubleCheckConfig {

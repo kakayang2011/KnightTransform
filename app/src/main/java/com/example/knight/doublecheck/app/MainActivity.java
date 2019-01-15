@@ -11,11 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.library.MyButton;
-import com.example.library.MyView;
-import com.knight.component.library.ServiceManager;
 import com.knight.doublecheck.library.DoubleCheck;
-import com.knight.module1.Module1Activity;
-import com.knight.module1.Module1Service;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     int i = 0;
@@ -31,12 +27,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
-                Module1Service service = ServiceManager.getIns().getService(Module1Service.class);
-                if (service != null) {
-                    service.startModule1Activity(MainActivity.this);
-                }
-
-//                com.knight.module1.BuildConfig
             }
         });
         Button button1 = findViewById(R.id.text2);

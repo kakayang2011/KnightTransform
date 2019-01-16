@@ -73,13 +73,3 @@ dependencies {
 //            "R.raw.*"
 //    ]
 //}
-
-// apply plugin: 'com.knight.transform.config'
-//config{modularization:
-//    packageName="com.example.knight.doublecheck.app"
-//    constantMap = [
-//            "appName":"app",
-//            "pluginName":"demo",
-//            "version":"1.0.0"
-//    ]
-//}

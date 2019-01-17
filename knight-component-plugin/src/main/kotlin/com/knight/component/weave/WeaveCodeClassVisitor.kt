@@ -13,19 +13,19 @@ class WeaveCodeClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVisit
     var isAppModule = false
     var isServiceManager = false
     override fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor {
-        isAppModule = descriptor == "L${extension.appPath};"
+        isAppModule = descriptor == "L${extension.appPath};"//通过注解判断是否为@AppSpec目标类
         return super.visitAnnotation(descriptor, visible)
     }
 
     override fun visit(version: Int, access: Int, name: String, signature: String?, superName: String?, interfaces: Array<String>?) {
         super.visit(version, access, name, signature, superName, interfaces)
-        isServiceManager = name == extension.serviceManagerPath
+        isServiceManager = name == extension.serviceManagerPath//是否为ServiceManager
     }
 
 
     override fun visitMethod(access: Int, name: String?, descriptor: String?, signature: String?, exceptions: Array<out String>?): MethodVisitor {
         val visitMethod = super.visitMethod(access, name, descriptor, signature, exceptions)
-        if (isAppModule) {
+        if (isAppModule) {//找到主app的各个方法，对其进行相应的代码织入
             println("modularization: application -> $className")
             when (name + descriptor) {
                 "onCreate()V" -> return AddCallAppInjectMethodVisitor(context, visitMethod, "onCreate", "()V", false, false)
@@ -37,7 +37,7 @@ class WeaveCodeClassVisitor(context: Context, cv: ClassVisitor) : BaseClassVisit
             }
         }
 
-        if (isServiceManager && access == 2 && name == "<init>" && descriptor == "()V") {
+        if (isServiceManager && access == 2 && name == "<init>" && descriptor == "()V") {//找到目标类的私有构造方法
             println("modularization: serviceManager -> $className")
             return AddCodeToConstructorVisitor(context, visitMethod)
         }

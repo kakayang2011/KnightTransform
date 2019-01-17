@@ -12,10 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by zhounl on 2017/11/15.
- */
-
 public class ServiceManagerJava {
 
     private List<Application> moduleApplications = new ArrayList<>();
@@ -24,7 +20,10 @@ public class ServiceManagerJava {
 
     private Map<Class, Object> routerInstanceMap = new HashMap<>();
 
-    private ServiceManagerJava() { }
+    private ServiceManagerJava() {
+        moduleApplications.add(new Application());
+        routersMap.put(String.class,String.class);
+    }
 
     public void attachBaseContext(Context context) {
         for (Application app : moduleApplications) {
@@ -74,17 +73,17 @@ public class ServiceManagerJava {
         }
     }
 
-    public static synchronized <T> T service(Class<T> routerType) {
+    public synchronized <T> T service(Class<T> routerType) {
         T requiredRouter = null;
-        if (!get().routerInstanceMap.containsKey(routerType)) {
+        if (!routerInstanceMap.containsKey(routerType)) {
             try {
-                requiredRouter = (T) get().routersMap.get(routerType).newInstance();
-                get().routerInstanceMap.put(routerType, requiredRouter);
+                requiredRouter = (T) routersMap.get(routerType).newInstance();
+                routerInstanceMap.put(routerType, requiredRouter);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
         } else {
-            requiredRouter = (T) get().routerInstanceMap.get(routerType);
+            requiredRouter = (T) routerInstanceMap.get(routerType);
         }
         return requiredRouter;
     }
@@ -97,11 +96,11 @@ public class ServiceManagerJava {
         return routersMap;
     }
 
-    public static AppJoint get() {
+    public static ServiceManagerJava get() {
         return SingletonHolder.INSTANCE;
     }
 
     static class SingletonHolder {
-        static AppJoint INSTANCE = new AppJoint();
+        static ServiceManagerJava INSTANCE = new ServiceManagerJava();
     }
 }

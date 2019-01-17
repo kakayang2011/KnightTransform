@@ -12,6 +12,10 @@ import java.util.HashMap
 class ServiceManager {
 
     companion object {
+        /**
+         * @JvmStatic 是为了在Java可以直接调用改静态方法，不用添加COMPANION
+         * 懒加载模式的单例，是不是比Java的单例更加简单
+         */
         @JvmStatic
         val ins: ServiceManager by lazy {
             ServiceManager()
@@ -19,13 +23,19 @@ class ServiceManager {
 
         const val TAG = "ServiceManager"
     }
+    // 各个module的Application集合，是为了方面管理各个module的生命周期
+    private val moduleApplications = ArrayList<Application>()
+    // module和moduleService之前的映射关系哈希表
+    private val serviceImplMap = HashMap<Class<*>, Class<*>>()
+    // module的实例对应哈希表，仅在第一次调用的时候初始化
+    private val serviceImplInstanceMap = HashMap<Class<*>, Any>()
 
-    val moduleApplications = ArrayList<Application>()
-    val serviceImplMap = HashMap<Class<*>, Class<*>>()
-    val serviceImplInstanceMap = HashMap<Class<*>, Any>()
+    private constructor(){
+        moduleApplications.add(Application())
+        serviceImplMap.put(String.javaClass,String.javaClass)
+    }
 
-    private constructor()
-
+    // 该方法会被注入到主app的Application中，按照Application的生命周期进行调用，以下的方法都是一个意思
     fun attachBaseContext(context: Context) {
         moduleApplications.forEach {
             val attachBaseContext = ContextWrapper::class.java.getDeclaredMethod("attachBaseContext", Context::class.java)
@@ -68,6 +78,7 @@ class ServiceManager {
         }
     }
 
+    // 同步调用ModuleService的实例，各个module的实例是在这里被创建的
     @Synchronized
     fun <T> getService(classType: Class<T>): T? {
         Log.i(TAG, "getService1: " + serviceImplMap.size)

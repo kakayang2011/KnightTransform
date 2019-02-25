@@ -3,3 +3,5 @@ include ':knight-shrinkR-plugin'
 include ':knight-byteK'
 include ':knight-component-plugin'
 include ':knight-component-library'
+
+include ':knight-shrinkInline-plugin'

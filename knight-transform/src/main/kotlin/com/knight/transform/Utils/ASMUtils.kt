@@ -55,6 +55,13 @@ object ASMUtils {
         return sb.toString()
     }
 
+    fun isSelfFile(className: String): Boolean {
+        if (className.startsWith("android/") || className.startsWith("kotlin/")) {
+            return false
+        }
+        return true
+    }
+
     @Throws(MalformedURLException::class)
     fun getClassLoader(inputs: Collection<TransformInput>,
                        referencedInputs: Collection<TransformInput>,

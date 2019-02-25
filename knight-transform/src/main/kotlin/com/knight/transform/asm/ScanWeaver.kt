@@ -3,6 +3,7 @@ package com.knight.transform.asm
 import com.knight.transform.IPlugin
 import com.knight.transform.Interceptor.ClassVisitorChain
 import com.knight.transform.Interceptor.ClassVisitorParams
+import com.knight.transform.Utils.Log
 import com.knight.transform.weave.ExtendClassWriter
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
@@ -17,8 +18,10 @@ import java.util.zip.ZipFile
 
 class ScanWeaver(iPlugin: IPlugin) : IWeaver(iPlugin = iPlugin) {
 
+    val TAG = "ScanWeaver"
     override fun weaveJar(inputJar: File, outputJar: File) {
         val inputZip = ZipFile(inputJar)
+        Log.d(TAG, "scanJar is ${inputJar.name}")
         inputZip.entries().toList().forEach { entry ->
             val outEntry = ZipEntry(entry.name)
             if (isWeaveableClass(outEntry.name.replace("/", "."))) {

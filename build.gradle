@@ -14,6 +14,8 @@ buildscript {
         classpath 'com.novoda:bintray-release:0.9'
           classpath "com.knight.doublecheck:doublecheck:$DOUBLECHECK_VERSION"
           classpath "com.knight.shrinkR:shrinkR:$SHINKR_VERSION"
+        classpath "com.knight.shrinkInline:shrinkInline:$SHINKINLINE_VERSION"
+
 //          classpath "com.knight.config:plugin:$CONFIG_VERSION"
           classpath "com.knight.bytek:bytek:$BTYEK_VERSION"
 //        classpath "com.knight.component:component:$COMPONENT_VERSION"

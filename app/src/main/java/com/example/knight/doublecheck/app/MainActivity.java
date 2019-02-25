@@ -26,7 +26,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @DoubleCheck
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "no double check: " + (++i), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(MainActivity.this, "no double check: " + (++i) + "   toast: " + (new Test()).getToast(), Toast.LENGTH_LONG).show();
             }
         });
         Button button1 = findViewById(R.id.text2);

@@ -5,3 +5,5 @@ include ':knight-component-plugin'
 include ':knight-component-library'
 
 include ':knight-shrinkInline-plugin'
+
+include ':knight-tinyImage-plugin'

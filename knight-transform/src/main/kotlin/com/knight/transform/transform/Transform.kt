@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils
 import java.io.File
 
 
-class Transform(val myContext: BaseContext, val weaver: IWeaver) {
+class Transform(val myContext: BaseContext<*>, val weaver: IWeaver) {
     val waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool()
 
     fun transform(transform: TransformInvocation) {

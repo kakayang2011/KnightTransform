@@ -7,7 +7,7 @@ import transform.task.WeavedClass
 import java.io.File
 import java.io.FileNotFoundException
 
-open class BaseContext(val project: Project, val extension: BaseExtension) {
+open class BaseContext<T : BaseExtension>(val project: Project, val extension: T) {
 
     val isLibrary = project.plugins.hasPlugin(LibraryPlugin::class.java)
     var weavedClassMap = ArrayList<WeavedClass>()

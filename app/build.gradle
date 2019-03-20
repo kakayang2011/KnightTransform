@@ -8,7 +8,7 @@ apply plugin: 'kotlin-android-extensions'
 //   apply plugin: 'com.knight.transform.shrinkr'
 //   apply plugin: 'com.knight.transform.byteK'
 
-apply plugin: 'com.knight.transform.shrinkinline'
+//apply plugin: 'com.knight.transform.shrinkinline'
 //apply plugin: 'com.knight.component'
 
 
@@ -45,10 +45,19 @@ dependencies {
     implementation "com.knight.component:componentlibrary:$COMPONENT_LIBRARY_VERSION"
 }
 
-shrinkInlineConfig {
+
+apply plugin: 'com.knight.transform.tinyImage'
+TinyImagePlugin {
     log = true
-    scanJar = false
+    isScanJar = false
+    executeFileDir = "${rootDir}/app/mctools/"
 }
+
+
+//shrinkInlineConfig {
+//    log = true
+//    scanJar = false
+//}
 
 // doubleCheckConfig {
 //     scanJar = true

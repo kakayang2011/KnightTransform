@@ -11,7 +11,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class Context(project: Project,
-              extension: ByteKExtension) : BaseContext(project, extension) {
+              extension: ByteKExtension) : BaseContext<ByteKExtension>(project, extension) {
     val MATCH_ALL = ".+"
     val PATTERN_MATCH_ALL = Pattern.compile(MATCH_ALL)
     private val RClasses = ConcurrentHashMap.newKeySet<String>(1000)

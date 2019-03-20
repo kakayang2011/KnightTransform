@@ -5,7 +5,7 @@ import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Opcodes
 import transform.task.WeavedClass
 
-abstract class BaseClassVisitor<C : BaseContext>(val context: C, cv: ClassVisitor) : ClassVisitor(Opcodes.ASM5, cv), Opcodes {
+abstract class BaseClassVisitor<C : BaseContext<*>>(val context: C, cv: ClassVisitor) : ClassVisitor(Opcodes.ASM5, cv), Opcodes {
     lateinit var className: String
     lateinit var weavedClass: WeavedClass
     override fun visit(version: Int, access: Int, name: String, signature: String?, superName: String?, interfaces: Array<String>?) {

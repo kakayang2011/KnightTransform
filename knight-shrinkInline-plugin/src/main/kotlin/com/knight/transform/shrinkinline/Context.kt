@@ -9,7 +9,7 @@ import org.gradle.api.Project
 import java.util.concurrent.ConcurrentHashMap
 
 class Context(project: Project,
-              extension: ShrinkInlineExtension) : BaseContext(project, extension) {
+              extension: ShrinkInlineExtension) : BaseContext<ShrinkInlineExtension>(project, extension) {
 
     companion object {
         @JvmStatic

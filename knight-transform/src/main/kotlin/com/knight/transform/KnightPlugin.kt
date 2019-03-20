@@ -10,7 +10,7 @@ import org.gradle.api.*
 import transform.KnightTransform
 import transform.task.OutPutMappingTask
 
-abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project>, IPlugin {
+abstract class KnightPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Project>, IPlugin {
 
     protected lateinit var context: C
     protected lateinit var extension: E
@@ -39,16 +39,18 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project
         if (isNeedPrintMapAndTaskCostTime) {
             if (android is AppExtension) {
                 (android as AppExtension).applicationVariants.all {
-                    createWriteMappingTask(it, context)
+                    createTask(it, context)
                 }
             } else if (android is LibraryExtension) {
                 (android as LibraryExtension).libraryVariants.all {
-                    createWriteMappingTask(it, context)
+                    createTask(it, context)
                 }
             }
         }
-        transform = KnightTransform(context, this, ::getTransformName)
-        android.registerTransform(transform)
+        if (isNeedWeaveClass()) {
+            transform = KnightTransform(context, this, ::getTransformName)
+            android.registerTransform(transform)
+        }
     }
 
     abstract fun getTransformName(): String
@@ -62,8 +64,15 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project
         return null
     }
 
+    override fun isNeedWeaveClass(): Boolean {
+        return true
+    }
 
-    private fun createWriteMappingTask(variant: BaseVariant, context: BaseContext) {
+    open fun createTask(variant: BaseVariant, context: BaseContext<*>) {
+        createWriteMappingTask(variant, context)
+    }
+
+    private fun createWriteMappingTask(variant: BaseVariant, context: BaseContext<*>) {
         val mappingTaskName = "${transform.name}outputMappingFor${variant.name.capitalize()}"
         val myTask = project.tasks.getByName("transformClassesWith${transform.name}For${variant.name.capitalize()}")
         myTask.apply {
@@ -75,12 +84,7 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext> : Plugin<Project
                 Timer.stop(name)
             }
         }
-        val outputMappingTask =
-//                try {
-//            project.tasks.getByName(mappingTaskName)
-//        } catch (e: UnknownTaskException) {
-                project.tasks.create(mappingTaskName, OutPutMappingTask::class.java)
-//        }
+        val outputMappingTask = project.tasks.create(mappingTaskName, OutPutMappingTask::class.java)
 
         outputMappingTask.apply {
             this as OutPutMappingTask

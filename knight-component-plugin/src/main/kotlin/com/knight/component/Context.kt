@@ -7,7 +7,7 @@ import org.gradle.api.Project
 import org.gradle.internal.impldep.com.google.api.client.util.ArrayMap
 
 class Context(project: Project,
-              extension: BaseExtension) : BaseContext(project, extension) {
+              extension: BaseExtension) : BaseContext<BaseExtension>(project, extension) {
 
     val moduleApplications = ArrayList<String>()
 

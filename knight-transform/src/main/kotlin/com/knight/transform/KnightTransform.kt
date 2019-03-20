@@ -6,14 +6,16 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.knight.transform.BaseContext
 import com.knight.transform.IPlugin
+import com.knight.transform.Utils.Log
 import com.knight.transform.Utils.TransFormUtil
 import com.knight.transform.asm.CodeWeaver
 import com.knight.transform.asm.ScanWeaver
 import transform.Utils.ASMUtils
 
-open class KnightTransform(private val context: BaseContext, val iPlugin: IPlugin, val getTransformName: () -> String) : Transform() {
-
-    private val codeWeaver: CodeWeaver = CodeWeaver(iPlugin)
+open class KnightTransform(private val context: BaseContext<*>, val iPlugin: IPlugin, val getTransformName: () -> String) : Transform() {
+    private val codeWeaver: CodeWeaver? = if (iPlugin.isNeedWeaveClass()) {
+        CodeWeaver(iPlugin)
+    } else null
     private val scanWeaver: ScanWeaver? = if (iPlugin.isNeedScanClass()) {
         ScanWeaver(iPlugin)
     } else null
@@ -43,15 +45,15 @@ open class KnightTransform(private val context: BaseContext, val iPlugin: IPlugi
             val startTime = System.currentTimeMillis()
             TransFormUtil.transform(context, it, invocation)
             val costTime = System.currentTimeMillis() - startTime
-            println("$name : scan code has costed $costTime ms")
+            Log.i(name, "$name : scan code has costed $costTime ms")
         }
-        kotlin.run {
+        codeWeaver?.run {
             val startTime = System.currentTimeMillis()
-            codeWeaver.classloader = classLoader
-            codeWeaver.isNeedScanRClass = iPlugin.isNeedScanWeaveRClass()
-            TransFormUtil.transform(context, codeWeaver, invocation)
+            classloader = classLoader
+            isNeedScanRClass = iPlugin.isNeedScanWeaveRClass()
+            TransFormUtil.transform(context, this, invocation)
             val costTime = System.currentTimeMillis() - startTime
-            println("$name : weave code has costed $costTime ms")
+            Log.i(name, "$name : weave code has costed $costTime ms")
         }
 
     }

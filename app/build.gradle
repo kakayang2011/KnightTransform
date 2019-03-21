@@ -49,10 +49,14 @@ dependencies {
 
 apply plugin: 'com.knight.transform.tinyImage'
 tinyImage {
-    log = true
+//    log = true
     rootPath = "${rootDir}"
     webp = true
-    needRevert = true
+//    needRevert = true
+//    whiteList = [
+//            "origin.png"
+//    ]
+    maxSize = 1024 * 40
 }
 
 //apply plugin: 'McImage'

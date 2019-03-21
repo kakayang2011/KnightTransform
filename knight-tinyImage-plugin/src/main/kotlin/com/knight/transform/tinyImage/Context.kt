@@ -18,5 +18,7 @@ class Context(project: Project,
     val compressPngList = ArrayList<File>()
     val convertWebpList = ArrayList<File>()
 
+    val bigImageList = ArrayList<File>()
+
 
 }

@@ -7,6 +7,7 @@ import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
 import com.knight.transform.tinyImage.utils.ImageUtil
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -34,8 +35,17 @@ open class TinyImageTask : DefaultTask() {
                 }?.forEach {
                     searchTargetFiles(it)
                 }
+        context.bigImageList.let {
+            if (it.isNotEmpty()) {
+                val stringBuffer = StringBuffer("You have big Img!!!! please check them \n")
+                for (i: Int in 0 until it.size) {
+                    stringBuffer.append(it[i].absoluteFile)
+                    stringBuffer.append("\n")
+                }
+                throw GradleException(stringBuffer.toString())
+            }
+        }
         Log.i(TAG, "picture(png jpeg web) origin size: ${originPictureTotalSize / 1024}KB =====> after size: ${afterCompressTotalSize / 1024}KB , shrink ${(((originPictureTotalSize - afterCompressTotalSize).toFloat() / (originPictureTotalSize)) * 100).toInt()} percentage")
-
     }
 
     private fun searchTargetFiles(file: File) {
@@ -46,8 +56,7 @@ open class TinyImageTask : DefaultTask() {
                 }
                 searchTargetFiles(it)
             }
-        } else {
-
+        } else if (ImageUtil.isImage(file)) {
             val oldFileSize = file.length()
             originPictureTotalSize += oldFileSize
             val newFileSize = processImage(context, file)
@@ -61,7 +70,12 @@ open class TinyImageTask : DefaultTask() {
 
     private fun processImage(context: Context, imgFile: File): Long {
         imgFile.takeIf {
-            ImageUtil.isImage(it) && context.extension.webp && (ImageUtil.isSupportConvertToWebpWithAlpha(context.project)
+            it.length() >= context.extension.maxSize
+        }?.let {
+            context.bigImageList.add(it)
+            return it.length()
+        } ?: imgFile.takeIf {
+            !context.extension.whiteList.contains(it.name) && context.extension.webp && (ImageUtil.isSupportConvertToWebpWithAlpha(context.project)
                     || (ImageUtil.isSupportConvertToWebp(context.project) && !ImageUtil.isAlphaPNG(it)))
         }?.let {
             val webpFile = File("${imgFile.path.substring(0, imgFile.path.lastIndexOf("."))}.webp")
@@ -78,9 +92,9 @@ open class TinyImageTask : DefaultTask() {
                     webpFile.delete()
                 }
             }
-            it
+            return it.length()
         } ?: imgFile.takeIf {
-            ImageUtil.isImage(it) && context.extension.compress
+            !context.extension.whiteList.contains(it.name) && context.extension.compress
         }?.let {
             if (ImageUtil.isJPG(imgFile)) {
                 ImageUtil.command(context, "guetzli ${imgFile.path} ${imgFile.path}")

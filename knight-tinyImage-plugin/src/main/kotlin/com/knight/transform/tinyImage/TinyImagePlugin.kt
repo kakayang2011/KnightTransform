@@ -5,6 +5,7 @@ import com.android.build.gradle.api.BaseVariant
 import com.knight.transform.BaseContext
 import com.knight.transform.KnightTaskPlugin
 import com.knight.transform.Utils.Log
+import com.knight.transform.Utils.Timer
 import com.knight.transform.tinyImage.extension.TinyImageExtension
 import com.knight.transform.tinyImage.tasks.RevertTask
 import com.knight.transform.tinyImage.tasks.TinyImageTask
@@ -31,14 +32,12 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
             this.context = context
         }
 
-        var curTime = 0L
-
         tinyPicTask.doFirst {
-            curTime = System.currentTimeMillis()
+            Timer.start(it.name)
         }
 
         tinyPicTask.doLast {
-            Log.i(TAG, "${tinyPicTask.name} wast time is ${System.currentTimeMillis() - curTime} ms")
+            Timer.stop(it.name)
         }
 
         mergeResourcesTask?.let { task ->
@@ -48,17 +47,25 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
             task.dependsOn(tinyPicTask)
         }
 
-        val packageTask = project.tasks.findByName("assemble${variant.name.capitalize()}")
+        val packageTask = project.tasks.findByName("package${variant.name.capitalize()}")
         val revertTaskName = "revert${variant.name.capitalize()}"
         val revertTask = project.tasks.create(revertTaskName, RevertTask::class.java).apply {
             this.context = context
         }
-        packageTask?.let { task ->
-            revertTask.dependsOn(task)
-            task.finalizedBy(revertTask)
-            revertTask.onlyIf { it.didWork }
+
+        revertTask.doFirst {
+            Timer.start(it.name)
         }
-        Log.i(TAG, "packageTask is ${packageTask?.name ?: "has no this task"}")
+
+        revertTask.doLast {
+            Timer.stop(it.name)
+        }
+
+        packageTask?.run {
+            packageTask.finalizedBy(revertTask)
+            revertTask.onlyIf { packageTask.didWork }
+            revertTask.dependsOn(packageTask)
+        }
     }
 
     override fun getContext(project: Project, extension: TinyImageExtension, android: TestedExtension): Context {

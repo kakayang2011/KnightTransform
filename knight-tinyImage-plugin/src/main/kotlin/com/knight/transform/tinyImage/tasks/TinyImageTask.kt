@@ -53,7 +53,7 @@ open class TinyImageTask : DefaultTask() {
             val newFileSize = processImage(context, file)
             afterCompressTotalSize += newFileSize
 
-            if (newFileSize != 0L && newFileSize < oldFileSize && file.exists()) {
+            if (newFileSize < oldFileSize) {
                 context.compressPngList.add(file)
             }
         }

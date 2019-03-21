@@ -20,6 +20,7 @@ object ImageUtil {
                 ) && !file.name.endsWith(Context.DOT_9PNG)
     }
 
+
     fun isJPG(file: File): Boolean {
         return file.name.endsWith(Context.JPG) || file.name.endsWith(Context.JPEG)
     }

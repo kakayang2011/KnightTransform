@@ -17,13 +17,15 @@ open class RevertTask : DefaultTask() {
 
     @TaskAction
     fun revertPicture() {
+//        Log.i(TAG, "revertPicture run")
+
         context.compressPngList.forEach {
-            Log.i(TAG, "compressPngFile ${it.name}")
+            //            Log.i(TAG, "compressPngFile ${it.name}")
             revertUtil.revertFile(it)
         }
 
         context.convertWebpList.forEach {
-            Log.i(TAG, "convertWebpList ${it.name}")
+            //            Log.i(TAG, "convertWebpList ${it.name}")
             revertUtil.removeFile(it)
         }
     }

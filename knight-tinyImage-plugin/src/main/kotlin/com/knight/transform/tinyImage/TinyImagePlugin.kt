@@ -47,6 +47,10 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
             task.dependsOn(tinyPicTask)
         }
 
+        if (!context.extension.needRevert) {
+            return
+        }
+
         val packageTask = project.tasks.findByName("package${variant.name.capitalize()}")
         val revertTaskName = "revert${variant.name.capitalize()}"
         val revertTask = project.tasks.create(revertTaskName, RevertTask::class.java).apply {

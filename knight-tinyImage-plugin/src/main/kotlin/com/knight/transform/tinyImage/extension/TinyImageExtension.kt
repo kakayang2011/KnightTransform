@@ -6,4 +6,5 @@ import com.knight.transform.BaseExtension
 open class TinyImageExtension(var log: Boolean = false,
                               var rootPath: String = "",
                               var compress: Boolean = true,
-                              var webp: Boolean = false) : BaseExtension()
+                              var webp: Boolean = false,
+                              var needRevert: Boolean = true) : BaseExtension()

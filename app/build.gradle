@@ -52,6 +52,7 @@ tinyImage {
     log = true
     rootPath = "${rootDir}/app"
     webp = true
+    needRevert = false
 }
 
 //apply plugin: 'McImage'

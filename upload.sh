@@ -5,6 +5,10 @@ if [[ $name == "transform" ]]
 then
    moduleName="knight-transform"
    version="TRANSFORM_VERSION"
+elif [[ $name == "tinyImage" ]]
+then
+   moduleName="knight-tinyImage-plugin"
+   version="TINYIMAGE_VERSION"
 elif [[ $name == "bytek" ]]
 then
    moduleName="knight-byteK"

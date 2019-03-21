@@ -53,6 +53,7 @@ TinyImagePlugin {
     executeFileDir = "${rootDir}/app/mctools/"
 }
 
+//apply plugin: 'McImage'
 
 //shrinkInlineConfig {
 //    log = true

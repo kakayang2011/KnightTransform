@@ -7,13 +7,15 @@ import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
 import com.knight.transform.tinyImage.utils.CompressUtil
 import com.knight.transform.tinyImage.utils.ImageUtil
-import org.gradle.api.Action
 import org.gradle.api.DefaultTask
-import org.gradle.api.Task
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 open class TinyImageTask : DefaultTask() {
+
+    companion object {
+        val TAG = "TinyImageTask"
+    }
 
     var variant: BaseVariant? = null
     var context: Context? = null
@@ -31,26 +33,25 @@ open class TinyImageTask : DefaultTask() {
                         it.sourceFiles
                     }?.flatten()
                 }?.forEach {
-                    printFiles(it)
+                    searchTargetFiles(it)
                 }
+
+        Log.i(TAG, "picture(png jpeg web) origin size: ${originPictureTotalSize} ====> after size: ${afterCompressTotalSize}")
 
     }
 
-    fun printFiles(file: File) {
+    private fun searchTargetFiles(file: File) {
         if (file.isDirectory) {
-            Log.i("liyachao==== ", "file directory name ::${file.name}")
-
             file.listFiles().forEach {
                 if (it.isFile && !ImageUtil.isImage(it)) {
                     return@forEach
                 }
-                printFiles(it)
+                searchTargetFiles(it)
             }
         } else {
             originPictureTotalSize += file.length()
-            CompressUtil.compressImg(context?.extension?.executeFileDir ?: "", file)
+            CompressUtil.compressImg(context?.project?.rootDir?.path ?: "", file)
             afterCompressTotalSize += file.length()
-            Log.i("liyachao==== ", "~~~~ origin size: ${originPictureTotalSize} \n after size: ${afterCompressTotalSize}")
         }
     }
 

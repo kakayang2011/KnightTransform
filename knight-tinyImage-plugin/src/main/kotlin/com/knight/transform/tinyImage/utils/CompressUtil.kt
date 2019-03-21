@@ -14,14 +14,14 @@ object CompressUtil {
     val TAG = "CompressUtil"
     fun compressImg(rootStr: String, imgFile: File) {
         if (ImageUtil.isImage(imgFile)) {
-            val oldSize = imgFile.length()
+//            val oldSize = imgFile.length()
             if (ImageUtil.isJPG(imgFile)) {
-                CompressUtil.command(rootStr, "./guetzli ${imgFile.path} ${imgFile.path}")
+                CompressUtil.command(rootStr, "guetzli ${imgFile.path} ${imgFile.path}")
             } else {
-                CompressUtil.command(rootStr, "./pngquant --skip-if-larger --speed 3 --force --output ${imgFile.path} -- ${imgFile.path}")
+                CompressUtil.command(rootStr, "pngquant --skip-if-larger --speed 3 --force --output ${imgFile.path} -- ${imgFile.path}")
             }
-            val newSize = imgFile.length()
-            Log.i(TAG, "oldsize: $oldSize  newsize: $newSize")
+//            val newSize = imgFile.length()
+//            Log.i(TAG, "oldsize: $oldSize  newsize: $newSize")
         }
     }
 
@@ -30,11 +30,11 @@ object CompressUtil {
             val system = System.getProperty("os.name")
             when (system) {
                 "Mac OS X" ->
-                    "cd ${rootStr}mac/"
+                    "${rootStr}/mctools/mac/$cmd"
                 "Linux" ->
-                    "cd ${rootStr}linux/"
+                    "cd ${rootStr}/mctoollinux/$cmd"
                 "Windows" ->
-                    "cd ${rootStr}windows/"
+                    "cd ${rootStr}/mctoolwindows/$cmd"
                 else -> ""
             }
         }
@@ -43,9 +43,9 @@ object CompressUtil {
             Log.i(TAG, "McImage Not support this system")
             return
         }
-        Log.i(TAG, "final command is : app/mctools/mac/$cmd")
+        Log.i(TAG, "final command is : $cdStr")
         try {
-            val process = Runtime.getRuntime().exec("app/mctools/mac/$cmd")
+            val process = Runtime.getRuntime().exec(cdStr)
             process.waitFor()
         } catch (e: Exception) {
             Log.i(TAG, "exception is  : ${e.toString()}")

@@ -11,6 +11,11 @@ class Context(project: Project,
         const val JPEG = ".jpeg"
         const val PNG = ".png"
         const val DOT_9PNG = ".9.png"
+
+
+        public val instance by lazy {
+
+        }
     }
 
 

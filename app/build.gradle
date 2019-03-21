@@ -50,9 +50,9 @@ dependencies {
 apply plugin: 'com.knight.transform.tinyImage'
 tinyImage {
     log = true
-    rootPath = "${rootDir}/app"
+    rootPath = "${rootDir}"
     webp = true
-    needRevert = false
+    needRevert = true
 }
 
 //apply plugin: 'McImage'

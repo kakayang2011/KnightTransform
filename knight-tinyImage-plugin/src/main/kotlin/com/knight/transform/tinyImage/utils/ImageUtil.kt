@@ -58,11 +58,11 @@ object ImageUtil {
             val system = System.getProperty("os.name")
             when (system) {
                 "Mac OS X" ->
-                    "${rootStr}/mctools/mac/$cmd"
+                    "${rootStr}/tinytools/mac/$cmd"
                 "Linux" ->
-                    "${rootStr}/mctool/linux/$cmd"
+                    "${rootStr}/tinytools/linux/$cmd"
                 "Windows" ->
-                    "${rootStr}/mctool/windows/$cmd"
+                    "${rootStr}/tinytools/windows/$cmd"
                 else -> ""
             }
         }
@@ -73,7 +73,7 @@ object ImageUtil {
             process.waitFor()
         } catch (e: Exception) {
             Log.i(TAG, "exception is  : ${e}")
-            throw  GradleException("$e you should download resource at http://www.baidu.com")
+            throw  GradleException("$e you should download resource at https://github.com/296777513/KnightTransform/releases/download/1.0.0/tinytools.zip")
         }
     }
 }

@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "click: " + (++i), Toast.LENGTH_LONG).show();
+                Log.i("123", Test.Status.SCUUESS.toString());
             }
         });
 
+        ((ImageView) findViewById(R.id.image)).setImageResource(R.drawable.origin);
 
     }
 

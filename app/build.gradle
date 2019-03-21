@@ -25,6 +25,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -47,10 +48,10 @@ dependencies {
 
 
 apply plugin: 'com.knight.transform.tinyImage'
-TinyImagePlugin {
+tinyImage {
     log = true
-    isScanJar = false
-    executeFileDir = "${rootDir}/app/mctools/"
+    rootPath = "${rootDir}/app"
+    webp = true
 }
 
 //apply plugin: 'McImage'

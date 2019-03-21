@@ -48,7 +48,7 @@ abstract class KnightTaskPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<
         }
     }
 
-    abstract fun createTask(variant: BaseVariant, context: BaseContext<*>)
+    abstract fun createTask(variant: BaseVariant, context: C)
 
 
 }

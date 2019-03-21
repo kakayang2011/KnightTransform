@@ -5,7 +5,6 @@ import com.android.build.gradle.tasks.MergeResources
 import com.android.ide.common.res2.ResourceSet
 import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
-import com.knight.transform.tinyImage.utils.CompressUtil
 import com.knight.transform.tinyImage.utils.ImageUtil
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -18,7 +17,7 @@ open class TinyImageTask : DefaultTask() {
     }
 
     var variant: BaseVariant? = null
-    var context: Context? = null
+    lateinit var context: Context
     var originPictureTotalSize = 0L
     var afterCompressTotalSize = 0L
 
@@ -35,8 +34,7 @@ open class TinyImageTask : DefaultTask() {
                 }?.forEach {
                     searchTargetFiles(it)
                 }
-
-        Log.i(TAG, "picture(png jpeg web) origin size: ${originPictureTotalSize} ====> after size: ${afterCompressTotalSize}")
+        Log.i(TAG, "picture(png jpeg web) origin size: ${originPictureTotalSize / 1024}KB =====> after size: ${afterCompressTotalSize / 1024}KB , shrink ${(((originPictureTotalSize - afterCompressTotalSize).toFloat() / (originPictureTotalSize)) * 100).toInt()} percentage")
 
     }
 
@@ -50,7 +48,7 @@ open class TinyImageTask : DefaultTask() {
             }
         } else {
             originPictureTotalSize += file.length()
-            CompressUtil.compressImg(context?.project?.rootDir?.path ?: "", file)
+            ImageUtil.processImage(context, file)
             afterCompressTotalSize += file.length()
         }
     }

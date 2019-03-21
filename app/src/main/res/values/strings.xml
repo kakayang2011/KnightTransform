@@ -1,2 +1,7 @@
 <resources>
+    <string name="str1">I\'m the king</string>
+    <string name="test">I\'m the king</string>
+
+    <string name="test2">I\'m the king</string>
+
 </resources>

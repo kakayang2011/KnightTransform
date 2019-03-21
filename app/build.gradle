@@ -41,8 +41,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation "com.knight.doublecheck:doublechecklibrary:$DOUBLECHECK_LIBRARY_VERSION"
-    implementation "com.knight:view:$VIEW_LIBRARY"
+//k    implementation "com.knight.doublecheck:doublechecklibrary:$DOUBLECHECK_LIBRARY_VERSION"
+//k    implementation "com.knight:view:$VIEW_LIBRARY"
     implementation "com.knight.component:componentlibrary:$COMPONENT_LIBRARY_VERSION"
 }
 

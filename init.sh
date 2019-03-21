@@ -2,7 +2,7 @@
 
 echo "begin init project~~"
 
-list="knight-transform knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin knight-config-plugin knight-doubleCheck-library library"
+list="knight-transform knight-tinyImage-plugin knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin  knight-doubleCheck-library library"
 
 for state in ${list}
 do

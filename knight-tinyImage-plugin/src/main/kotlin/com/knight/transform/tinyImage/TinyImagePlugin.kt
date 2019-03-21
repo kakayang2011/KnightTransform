@@ -6,6 +6,7 @@ import com.knight.transform.BaseContext
 import com.knight.transform.KnightTaskPlugin
 import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.extension.TinyImageExtension
+import com.knight.transform.tinyImage.tasks.RevertTask
 import com.knight.transform.tinyImage.tasks.TinyImageTask
 import org.gradle.api.Project
 
@@ -46,6 +47,18 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
             task.onlyIf { tinyPicTask.didWork }
             task.dependsOn(tinyPicTask)
         }
+
+        val packageTask = project.tasks.findByName("assemble${variant.name.capitalize()}")
+        val revertTaskName = "revert${variant.name.capitalize()}"
+        val revertTask = project.tasks.create(revertTaskName, RevertTask::class.java).apply {
+            this.context = context
+        }
+        packageTask?.let { task ->
+            revertTask.dependsOn(task)
+            task.finalizedBy(revertTask)
+            revertTask.onlyIf { it.didWork }
+        }
+        Log.i(TAG, "packageTask is ${packageTask?.name ?: "has no this task"}")
     }
 
     override fun getContext(project: Project, extension: TinyImageExtension, android: TestedExtension): Context {

@@ -45,7 +45,7 @@ echo "begin upload please wait!!!~~~"
 sed -i "" "s/\/\/k//g" ${moduleName}/build.gradle
 bintaryUser=`grep "PbintrayUser" local.properties | cut -d '=' -f 2`
 bintaryKey=`grep "PbintrayKey" local.properties | cut -d '=' -f 2`
-./gradlew clean :${moduleName}:build :${moduleName}:bintrayUpload -PbintrayUser=${bintaryUser} -PbintrayKey=${bintaryKey} -PdryRun=false 2>&1 | tee log.txt
+./gradlew clean :${moduleName}:build :${moduleName}:bintrayUpload -PbintrayUser=${bintaryUser} -PbintrayKey=${bintaryKey} -PdryRun=false --stacktrace 2>&1 | tee log.txt
 
 uploadStr=`grep "BUILD SUCCESSFUL" log.txt`
 

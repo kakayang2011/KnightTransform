@@ -1,3 +1,4 @@
 package com.knight.transform
 
-open class BaseExtension(var isScanJar: Boolean = true)
+open class BaseExtension(var isScanJar: Boolean = true) {
+}

@@ -73,7 +73,7 @@ object ImageUtil {
             process.waitFor()
         } catch (e: Exception) {
             Log.i(TAG, "exception is  : ${e}")
-            throw  GradleException("$e you should download resource at https://github.com/296777513/KnightTransform/releases/download/1.0.0/tinytools.zip")
+            throw  GradleException("$e you should download resource at \n https://github.com/296777513/KnightTransform/releases/download/1.0.0/tinytools.zip")
         }
     }
 }

@@ -1,14 +1,12 @@
 package com.knight.transform
 
-import com.android.build.api.transform.Transform
 import com.android.build.gradle.*
 import com.android.build.gradle.api.BaseVariant
-import com.android.builder.model.AndroidProject
-import com.knight.transform.Interceptor.IClassVisitorInterceptor
-import com.knight.transform.Utils.Timer
-import org.gradle.api.*
+import com.knight.transform.Utils.PrintAllTaskUtil
+import org.gradle.api.GradleException
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 import transform.KnightTransform
-import transform.task.OutPutMappingTask
 
 abstract class KnightTaskPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Project> {
 
@@ -49,6 +47,4 @@ abstract class KnightTaskPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<
     }
 
     abstract fun createTask(variant: BaseVariant, context: C)
-
-
 }

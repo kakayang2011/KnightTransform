@@ -10,4 +10,5 @@ open class TinyImageExtension(var log: Boolean = false,
                               var needRevert: Boolean = true,
                               var whiteList: ArrayList<String> = ArrayList()) : BaseExtension() {
     var maxSize: Long = 1024 * 1024
+    var enablePrintTasks: Boolean = false
 }

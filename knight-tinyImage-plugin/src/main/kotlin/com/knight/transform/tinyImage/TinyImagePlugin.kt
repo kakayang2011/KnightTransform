@@ -2,9 +2,9 @@ package com.knight.transform.tinyImage
 
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.api.BaseVariant
-import com.knight.transform.BaseContext
 import com.knight.transform.KnightTaskPlugin
 import com.knight.transform.Utils.Log
+import com.knight.transform.Utils.PrintAllTaskUtil
 import com.knight.transform.Utils.Timer
 import com.knight.transform.tinyImage.extension.TinyImageExtension
 import com.knight.transform.tinyImage.tasks.RevertTask
@@ -24,6 +24,9 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
 
     override fun createTask(variant: BaseVariant, context: Context) {
         Log.isOpenLog = context.extension.log
+        if (context.extension.enablePrintTasks) {
+            PrintAllTaskUtil.printAllTasks(context)
+        }
         val mergeResourcesTask = project.tasks.findByName("merge${variant.name.capitalize()}Resources")
         val tinyTaskName = "TinyImage${variant.name.capitalize()}"
 

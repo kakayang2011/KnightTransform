@@ -54,15 +54,23 @@ object ImageUtil {
 
     fun command(context: Context, cmd: String) {
         val rootStr = if (context.extension.rootPath.isNotEmpty()) context.extension.rootPath else context.project.rootDir.path
+        var url = ""
         val cdStr = run {
             val system = System.getProperty("os.name")
             when (system) {
-                "Mac OS X" ->
+                "Mac OS X" -> {
+                    url = "https://github.com/296777513/KnightTransform/releases/download/1.0.2/tinytools_mac.zip"
                     "${rootStr}/tinytools/mac/$cmd"
-                "Linux" ->
+
+                }
+                "Linux" -> {
+                    url = "https://github.com/296777513/KnightTransform/releases/download/1.0.2/tinytools_linux.zip"
                     "${rootStr}/tinytools/linux/$cmd"
-                "Windows" ->
+                }
+                "Windows" -> {
+                    url = "https://github.com/296777513/KnightTransform/releases/download/1.0.2/tinytools_windows.zip"
                     "${rootStr}/tinytools/windows/$cmd"
+                }
                 else -> ""
             }
         }
@@ -71,7 +79,7 @@ object ImageUtil {
             process.waitFor()
         } catch (e: Exception) {
             Log.i(TAG, "exception is  : ${e}")
-            throw  GradleException("$e \n you should download resource at \n https://github.com/296777513/KnightTransform/releases/download/1.0.0/tinytools.zip  \n, and put the unzip tinytools in the root of project's directory")
+            throw  GradleException("$e \n you should download resource at \n $url \n, and put the unzip tinytools in the root of project's directory")
         }
     }
 }

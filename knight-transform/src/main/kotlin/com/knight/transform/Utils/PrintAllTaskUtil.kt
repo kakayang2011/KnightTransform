@@ -20,47 +20,46 @@ object PrintAllTaskUtil {
     //用来记录 task 的执行时长等信息
     val timeCostMap = LinkedHashMap<String, TaskExecTimeInfo>()
 
+    val taskExecutionListener = object : TaskExecutionListener {
+        override fun beforeExecute(task: Task) {
+            timeCostMap[task.path] = TaskExecTimeInfo(System.currentTimeMillis(), 0, task.path, 0)
+        }
+
+        override fun afterExecute(task: Task, p1: TaskState) {
+            timeCostMap[task.path]?.let {
+                it.endTime = System.currentTimeMillis()
+                it.totalTime = it.endTime - it.startTime
+            }
+        }
+    }
+
+    val buildListener = object : BuildListener {
+        override fun buildFinished(buildResult: BuildResult) {
+            val sb = StringBuilder()
+            sb.append("build finished, now println all task execution time: ")
+            timeCostMap.forEach {
+                sb.append("\n${it.key} [${it.value.totalTime}]")
+            }
+            Log.e(TAG, sb.toString())
+        }
+
+        override fun projectsLoaded(p0: Gradle) {
+        }
+
+        override fun buildStarted(p0: Gradle) {
+        }
+
+        override fun projectsEvaluated(p0: Gradle) {
+        }
+
+        override fun settingsEvaluated(p0: Settings) {
+        }
+
+    }
+
     fun printAllTasks(context: BaseContext<*>) {
-
-        context.project.gradle.addListener(object : TaskExecutionListener {
-            override fun beforeExecute(task: Task) {
-                timeCostMap[task.path] = TaskExecTimeInfo(System.currentTimeMillis(), 0, task.path, 0)
-            }
-
-            override fun afterExecute(task: Task, p1: TaskState) {
-                timeCostMap[task.path]?.let {
-                    it.endTime = System.currentTimeMillis()
-                    it.totalTime = it.endTime - it.startTime
-                }
-            }
-
-        })
-
-        context.project.gradle.addBuildListener(object : BuildListener {
-            override fun buildFinished(buildResult: BuildResult) {
-                Log.e(TAG, "======================")
-                Log.e(TAG, "======================")
-                Log.e(TAG, "build finished, now println all task execution time:")
-                timeCostMap.forEach {
-                    Log.e(TAG, "${it.key} [${it.value.totalTime}]")
-                }
-                Log.e(TAG, "======================")
-                Log.e(TAG, "======================")
-            }
-
-            override fun projectsLoaded(p0: Gradle) {
-            }
-
-            override fun buildStarted(p0: Gradle) {
-            }
-
-            override fun projectsEvaluated(p0: Gradle) {
-            }
-
-            override fun settingsEvaluated(p0: Settings) {
-            }
-
-        })
+        context.project.gradle.addListener(taskExecutionListener)
+        context.project.gradle.addBuildListener(buildListener)
     }
 }
 

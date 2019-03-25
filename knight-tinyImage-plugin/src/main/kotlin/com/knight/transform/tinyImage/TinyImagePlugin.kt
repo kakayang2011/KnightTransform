@@ -14,7 +14,7 @@ import org.gradle.api.Project
 class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
 
     private val EXTENSION_NAME = "tinyImage"
-    private val TAG = "TinyImagePlugin";
+    private val TAG = "TinyImagePlugin"
 
     override fun createExtensions(): TinyImageExtension {
         project.extensions.create(EXTENSION_NAME, TinyImageExtension::class.java)

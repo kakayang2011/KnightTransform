@@ -6,35 +6,57 @@ import java.io.StringWriter
 
 object Log {
 
+    /**
+     * Drawing toolbox
+     */
+    private val TOP_LEFT_CORNER = '╔'
+    private val BOTTOM_LEFT_CORNER = '╚'
+    private val MIDDLE_CORNER = '╟'
+    private val HORIZONTAL_DOUBLE_LINE = '║'
+    private val DOUBLE_DIVIDER = "═════════════════════════════════════════════════"
+    private val SINGLE_DIVIDER = "─────────────────────────────────────────────────"
+    val TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER
+    val BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER
+    val MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + SINGLE_DIVIDER
+    val BR = System.getProperty("line.separator")     // 换行符
+
+
     private val debugLog: LogImp = object : LogImp {
 
-        override fun v(tag: String, msg: String, vararg obj: Any) {
-            val log = if (obj == null) msg else String.format(msg, *obj)
-            println(String.format("[VERBOSE][%s]%s", tag, log))
+        override fun i(tag: String, msg: String) {
+            if (msg.contains("\n")) {
+                println(String.format(getMethodNames(Log.LogLevel.INFO), tag, msg.replace("\n".toRegex(), "\n║ ")))
+            } else {
+                println(String.format(getMethodNames(Log.LogLevel.INFO), tag, msg))
+            }
         }
 
-        override fun i(tag: String, msg: String, vararg obj: Any) {
-            val log = if (obj == null) msg else String.format(msg, *obj)
-            println(String.format("[INFO][%s]%s", tag, log))
+        override fun d(tag: String, msg: String) {
+            if (msg.contains("\n")) {
+                println(String.format(getMethodNames(Log.LogLevel.DEBUG), tag, msg.replace("\n".toRegex(), "\n║ ")))
+            } else {
+                println(String.format(getMethodNames(Log.LogLevel.DEBUG), tag, msg))
+            }
         }
 
-        override fun d(tag: String, msg: String, vararg obj: Any) {
-            val log = if (obj == null) msg else String.format(msg, *obj)
-            println(String.format("[DEBUG][%s]%s", tag, log))
+        override fun w(tag: String, msg: String) {
+            if (msg.contains("\n")) {
+                println(String.format(getMethodNames(Log.LogLevel.WARN), tag, msg.replace("\n".toRegex(), "\n║ ")))
+            } else {
+                println(String.format(getMethodNames(Log.LogLevel.WARN), tag, msg))
+            }
         }
 
-        override fun w(tag: String, msg: String, vararg obj: Any) {
-            val log = if (obj == null) msg else String.format(msg, *obj)
-            println(String.format("[WARN][%s]%s", tag, log))
+        override fun e(tag: String, msg: String) {
+            if (msg.contains("\n")) {
+                println(String.format(getMethodNames(Log.LogLevel.ERROR), tag, msg.replace("\n".toRegex(), "\n║ ")))
+            } else {
+                println(String.format(getMethodNames(Log.LogLevel.ERROR), tag, msg))
+            }
         }
 
-        override fun e(tag: String, msg: String, vararg obj: Any) {
-            val log = if (obj == null) msg else String.format(msg, *obj)
-            println(String.format("[ERROR][%s]%s", tag, log))
-        }
-
-        override fun printErrStackTrace(tag: String, tr: Throwable, format: String, vararg obj: Any) {
-            var log: String? = if (obj == null) format else String.format(format, *obj)
+        override fun printErrStackTrace(tag: String, tr: Throwable, format: String) {
+            var log: String? = format
             if (log == null) {
                 log = ""
             }
@@ -46,64 +68,87 @@ object Log {
         }
     }
 
-    var impl: LogImp? = debugLog
-        private set
-
-    fun setLogImp(imp: LogImp) {
-        impl = imp
-    }
+    var impl: LogImp = debugLog
 
     var isOpenLog: Boolean = true
+    var logLevel: LogLevel = LogLevel.INFO
 
-    fun v(tag: String, msg: String, vararg obj: Any) {
-        if (impl != null && isOpenLog) {
-            impl!!.v(tag, msg, *obj)
+    @JvmStatic
+    fun e(tag: String, msg: String) {
+        if (isOpenLog && LogLevel.ERROR.value <= logLevel.value) {
+            impl.e(tag, msg)
         }
     }
 
-    fun e(tag: String, msg: String, vararg obj: Any) {
-        if (impl != null && isOpenLog) {
-            impl!!.e(tag, msg, *obj)
+    @JvmStatic
+    fun w(tag: String, msg: String) {
+        if (isOpenLog && LogLevel.WARN.value <= logLevel.value) {
+            impl.w(tag, msg)
         }
     }
 
-    fun w(tag: String, msg: String, vararg obj: Any) {
-        if (impl != null && isOpenLog) {
-            impl!!.w(tag, msg, *obj)
+    @JvmStatic
+    fun i(tag: String, msg: String) {
+        if (isOpenLog && LogLevel.INFO.value <= logLevel.value) {
+            impl.i(tag, msg)
         }
     }
 
-    fun i(tag: String, msg: String, vararg obj: Any) {
-        if (impl != null && isOpenLog) {
-            impl!!.i(tag, msg, *obj)
+    @JvmStatic
+    fun d(tag: String, msg: String) {
+        if (isOpenLog && LogLevel.DEBUG.value <= logLevel.value) {
+            impl.d(tag, msg)
         }
     }
 
-    fun d(tag: String, msg: String, vararg obj: Any) {
-        if (impl != null && isOpenLog) {
-            impl!!.d(tag, msg, *obj)
-        }
+    @JvmStatic
+    fun printErrStackTrace(tag: String, tr: Throwable, format: String) {
+        impl.printErrStackTrace(tag, tr, format)
     }
 
-    fun printErrStackTrace(tag: String, tr: Throwable, format: String, vararg obj: Any) {
-        if (impl != null) {
-            impl!!.printErrStackTrace(tag, tr, format, *obj)
-        }
+    private fun getMethodNames(logLevel: LogLevel): String {
+        val builder = StringBuilder()
+
+        builder.append(TOP_BORDER).append(BR)
+                .append("║ ").append("[${logLevel.name}][%s]%s").append(BR)
+                .append(BOTTOM_BORDER)
+        return builder.toString()
     }
+
 
     interface LogImp {
 
-        fun v(tag: String, msg: String, vararg obj: Any)
 
-        fun i(tag: String, msg: String, vararg obj: Any)
+        fun i(tag: String, msg: String)
 
-        fun w(tag: String, msg: String, vararg obj: Any)
+        fun w(tag: String, msg: String)
 
-        fun d(tag: String, msg: String, vararg obj: Any)
+        fun d(tag: String, msg: String)
 
-        fun e(tag: String, msg: String, vararg obj: Any)
+        fun e(tag: String, msg: String)
 
-        fun printErrStackTrace(tag: String, tr: Throwable, format: String, vararg obj: Any)
+        fun printErrStackTrace(tag: String, tr: Throwable, format: String)
 
+    }
+
+    enum class LogLevel {
+        ERROR {
+            override val value: Int
+                get() = 0
+        },
+        WARN {
+            override val value: Int
+                get() = 1
+        },
+        INFO {
+            override val value: Int
+                get() = 2
+        },
+        DEBUG {
+            override val value: Int
+                get() = 3
+        };
+
+        abstract val value: Int
     }
 }

@@ -47,18 +47,18 @@ dependencies {
 }
 
 
-apply plugin: 'com.knight.transform.tinyImage'
-tinyImage {
-    log = true
-    rootPath = "${rootDir}"
-    webp = true
-    enablePrintTasks = true
-    needRevert = true
-//    whiteList = [
-//            "origin.png"
-//    ]
-    maxSize = 1024 * 40
-}
+//apply plugin: 'com.knight.transform.tinyImage'
+//tinyImage {
+//    log = true
+//    rootPath = "${rootDir}"
+//    webp = true
+//    enablePrintTasks = true
+//    needRevert = true
+////    whiteList = [
+////            "origin.png"
+////    ]
+//    maxSize = 1024 * 40
+//}
 
 //apply plugin: 'McImage'
 

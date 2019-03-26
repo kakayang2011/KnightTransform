@@ -1,13 +1,11 @@
 package com.knight.transform.tinyImage.utils
 
-import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
 import java.io.File
 
 object DownLoadUtil {
 
     fun tinyProgramExist(context: Context): Boolean {
-        Log.i("checkFileExist")
         val rootStr = if (context.extension.rootPath.isNotEmpty()) context.extension.rootPath else context.project.rootDir.path
         val programs = arrayOf("pngquant", "guetzli", "cwebp")
         val programsWindow = arrayOf("pngquant.exe", "guetzli.exe", "cwebp.exe")

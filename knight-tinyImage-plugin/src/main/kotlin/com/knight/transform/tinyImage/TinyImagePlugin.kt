@@ -2,6 +2,7 @@ package com.knight.transform.tinyImage
 
 import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.api.BaseVariant
+import com.android.tools.r8.utils.ZipUtils
 import com.knight.transform.KnightTaskPlugin
 import com.knight.transform.Utils.Log
 import com.knight.transform.Utils.PrintAllTaskUtil
@@ -9,7 +10,10 @@ import com.knight.transform.Utils.Timer
 import com.knight.transform.tinyImage.extension.TinyImageExtension
 import com.knight.transform.tinyImage.tasks.RevertTask
 import com.knight.transform.tinyImage.tasks.TinyImageTask
+import com.knight.transform.tinyImage.utils.DownLoadUtil
+import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Project
+import java.io.File
 
 class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
 
@@ -27,6 +31,7 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
         if (context.extension.enablePrintTasks) {
             PrintAllTaskUtil.printAllTasks(context)
         }
+        context.extension.rootPath = if (context.extension.rootPath.isEmpty()) project.rootDir.path else context.extension.rootPath
         val mergeResourcesTask = project.tasks.findByName("merge${variant.name.capitalize()}Resources")
         val tinyTaskName = "TinyImage${variant.name.capitalize()}"
 
@@ -48,6 +53,32 @@ class TinyImagePlugin : KnightTaskPlugin<TinyImageExtension, Context>() {
             tinyPicTask.finalizedBy(task)
             task.onlyIf { tinyPicTask.didWork }
             task.dependsOn(tinyPicTask)
+        }
+
+        if (!DownLoadUtil.tinyProgramExist(context)) {
+            val downLoadTaskName = "downLoad${variant.name.capitalize()}"
+
+            val downLoadTask = project.tasks.create(downLoadTaskName, Download::class.java)
+            downLoadTask.src(DownLoadUtil.getDownUrl())
+            downLoadTask.dest(context.extension.rootPath)
+
+
+            tinyPicTask.let { task ->
+                downLoadTask.dependsOn(task.taskDependencies.getDependencies(task))
+                downLoadTask.finalizedBy(task)
+                task.onlyIf { downLoadTask.didWork }
+                task.dependsOn(downLoadTask)
+            }
+
+            downLoadTask.doLast { task ->
+                task as Download
+                task.outputFiles.forEach {
+                    val file = File(context.extension.rootPath)
+                    ZipUtils.unzip(it.name, file)
+                    DownLoadUtil.chmodFile(file)
+                    it.delete()
+                }
+            }
         }
 
         if (!context.extension.needRevert) {

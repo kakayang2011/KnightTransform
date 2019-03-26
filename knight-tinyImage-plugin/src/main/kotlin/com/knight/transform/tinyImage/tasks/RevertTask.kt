@@ -1,8 +1,7 @@
 package com.knight.transform.tinyImage.tasks
 
-import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
-import com.knight.transform.tinyImage.utils.revertUtil
+import com.knight.transform.tinyImage.utils.RevertUtil
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
@@ -19,11 +18,11 @@ open class RevertTask : DefaultTask() {
     fun revertPicture() {
 
         context.compressPngList.forEach {
-            revertUtil.revertFile(it)
+            RevertUtil.revertFile(it)
         }
 
         context.convertWebpList.forEach {
-            revertUtil.removeFile(it)
+            RevertUtil.removeFile(it)
         }
     }
 

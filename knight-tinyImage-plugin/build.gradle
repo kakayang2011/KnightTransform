@@ -10,6 +10,7 @@ dependencies {
     implementation gradleApi()
 
     implementation "com.knight:transform:$TRANSFORM_VERSION"
+    implementation 'de.undercouch:gradle-download-task:3.4.3'
 //
 //    implementation project(":knight-transform")
 }

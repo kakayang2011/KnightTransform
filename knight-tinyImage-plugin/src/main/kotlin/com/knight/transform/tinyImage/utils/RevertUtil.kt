@@ -6,7 +6,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-object revertUtil {
+object RevertUtil {
     const val TAG = "revertUtil"
     fun revertFile(imageFile: File) {
         if (ImageUtil.isImage(imageFile)) {

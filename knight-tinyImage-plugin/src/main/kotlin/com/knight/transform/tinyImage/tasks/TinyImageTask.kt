@@ -2,7 +2,6 @@ package com.knight.transform.tinyImage.tasks
 
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.tasks.MergeResources
-import com.android.ide.common.res2.ResourceSet
 import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
 import com.knight.transform.tinyImage.utils.ImageUtil
@@ -29,8 +28,8 @@ open class TinyImageTask : DefaultTask() {
                 .java.declaredMethods.firstOrNull { it.name == "computeResourceSetList" && it.parameterCount == 0 }
                 ?.run {
                     isAccessible = true
-                    (invoke(variant?.mergeResources) as? List<ResourceSet>)?.mapNotNull {
-                        it.sourceFiles
+                    (invoke(variant?.mergeResources) as? Iterable<*>)?.mapNotNull { resourceSet ->
+                        resourceSet?.javaClass?.methods?.find { it.name == "getSourceFiles" && it.parameterCount == 0 }?.invoke(resourceSet) as? Iterable<File>
                     }?.flatten()
                 }?.forEach {
                     searchTargetFiles(it)
@@ -45,7 +44,7 @@ open class TinyImageTask : DefaultTask() {
                 throw GradleException(stringBuffer.toString())
             }
         }
-        Log.i( "picture(png jpeg web) origin size: ${originPictureTotalSize / 1024}KB =====> after size: ${afterCompressTotalSize / 1024}KB , shrink ${(((originPictureTotalSize - afterCompressTotalSize).toFloat() / (originPictureTotalSize)) * 100).toInt()} percentage")
+        Log.i("picture(png jpeg web) origin size: ${originPictureTotalSize / 1024}KB =====> after size: ${afterCompressTotalSize / 1024}KB , shrink ${(((originPictureTotalSize - afterCompressTotalSize).toFloat() / (originPictureTotalSize)) * 100).toInt()} percentage")
     }
 
     private fun searchTargetFiles(file: File) {

@@ -22,40 +22,44 @@ object Log {
 
 
     private val debugLog: LogImp = object : LogImp {
-
-        override fun i(tag: String, msg: String) {
+        @Synchronized
+        override fun i(msg: String) {
             if (msg.contains("\n")) {
-                println(String.format(getMethodNames(Log.LogLevel.INFO), tag, msg.replace("\n".toRegex(), "\n║ ")))
+                println(String.format(getMethodNames(Log.LogLevel.INFO), msg.replace("\n".toRegex(), "\n║ ")))
             } else {
-                println(String.format(getMethodNames(Log.LogLevel.INFO), tag, msg))
+                println(String.format(getMethodNames(Log.LogLevel.INFO), msg))
             }
         }
 
-        override fun d(tag: String, msg: String) {
+        @Synchronized
+        override fun d(msg: String) {
             if (msg.contains("\n")) {
-                println(String.format(getMethodNames(Log.LogLevel.DEBUG), tag, msg.replace("\n".toRegex(), "\n║ ")))
+                println(String.format(getMethodNames(Log.LogLevel.DEBUG), msg.replace("\n".toRegex(), "\n║ ")))
             } else {
-                println(String.format(getMethodNames(Log.LogLevel.DEBUG), tag, msg))
+                println(String.format(getMethodNames(Log.LogLevel.DEBUG), msg))
             }
         }
 
-        override fun w(tag: String, msg: String) {
+        @Synchronized
+        override fun w(msg: String) {
             if (msg.contains("\n")) {
-                println(String.format(getMethodNames(Log.LogLevel.WARN), tag, msg.replace("\n".toRegex(), "\n║ ")))
+                println(String.format(getMethodNames(Log.LogLevel.WARN), msg.replace("\n".toRegex(), "\n║ ")))
             } else {
-                println(String.format(getMethodNames(Log.LogLevel.WARN), tag, msg))
+                println(String.format(getMethodNames(Log.LogLevel.WARN), msg))
             }
         }
 
-        override fun e(tag: String, msg: String) {
+        @Synchronized
+        override fun e(msg: String) {
             if (msg.contains("\n")) {
-                println(String.format(getMethodNames(Log.LogLevel.ERROR), tag, msg.replace("\n".toRegex(), "\n║ ")))
+                println(String.format(getMethodNames(Log.LogLevel.ERROR), msg.replace("\n".toRegex(), "\n║ ")))
             } else {
-                println(String.format(getMethodNames(Log.LogLevel.ERROR), tag, msg))
+                println(String.format(getMethodNames(Log.LogLevel.ERROR), msg))
             }
         }
 
-        override fun printErrStackTrace(tag: String, tr: Throwable, format: String) {
+        @Synchronized
+        override fun printErrStackTrace(tr: Throwable, format: String) {
             var log: String? = format
             if (log == null) {
                 log = ""
@@ -64,70 +68,78 @@ object Log {
             val pw = PrintWriter(sw)
             tr.printStackTrace(pw)
             log += "  $sw"
-            println(String.format("[ERROR][%s]%s", tag, log))
+            println(String.format("[ERROR][%s]%s", log))
         }
     }
 
     var impl: LogImp = debugLog
 
     var isOpenLog: Boolean = true
-    var logLevel: LogLevel = LogLevel.INFO
+    var logLevel: LogLevel = LogLevel.DEBUG
+
+    fun setLogLevel(level: Int) {
+        logLevel = when (level) {
+            0 -> Log.LogLevel.ERROR
+            1 -> Log.LogLevel.WARN
+            2 -> Log.LogLevel.INFO
+            3 -> Log.LogLevel.DEBUG
+            else -> Log.LogLevel.INFO
+        }
+    }
 
     @JvmStatic
-    fun e(tag: String, msg: String) {
+    fun e(msg: String) {
         if (isOpenLog && LogLevel.ERROR.value <= logLevel.value) {
-            impl.e(tag, msg)
+            impl.e(msg)
         }
     }
 
     @JvmStatic
-    fun w(tag: String, msg: String) {
+    fun w(msg: String) {
         if (isOpenLog && LogLevel.WARN.value <= logLevel.value) {
-            impl.w(tag, msg)
+            impl.w(msg)
         }
     }
 
     @JvmStatic
-    fun i(tag: String, msg: String) {
+    fun i(msg: String) {
         if (isOpenLog && LogLevel.INFO.value <= logLevel.value) {
-            impl.i(tag, msg)
+            impl.i(msg)
         }
     }
 
     @JvmStatic
-    fun d(tag: String, msg: String) {
+    fun d(msg: String) {
         if (isOpenLog && LogLevel.DEBUG.value <= logLevel.value) {
-            impl.d(tag, msg)
+            impl.d(msg)
         }
     }
 
     @JvmStatic
     fun printErrStackTrace(tag: String, tr: Throwable, format: String) {
-        impl.printErrStackTrace(tag, tr, format)
+        impl.printErrStackTrace(tr, format)
     }
 
     private fun getMethodNames(logLevel: LogLevel): String {
-        val builder = StringBuilder()
-
-        builder.append(TOP_BORDER).append(BR)
-                .append("║ ").append("[${logLevel.name}][%s]%s").append(BR)
-                .append(BOTTOM_BORDER)
-        return builder.toString()
+        val stack = Thread.currentThread().stackTrace[5]
+        val split = stack.className.split('.')
+        return StringBuilder().append(TOP_BORDER).append(BR)
+                .append("║ ").append("[" + logLevel.name + "][" + split[split.size - 1] + "]%s").append(BR)
+                .append(BOTTOM_BORDER).toString()
     }
 
 
     interface LogImp {
 
+        fun i(msg: String)
 
-        fun i(tag: String, msg: String)
+        fun w(msg: String)
 
-        fun w(tag: String, msg: String)
+        fun d(msg: String)
 
-        fun d(tag: String, msg: String)
+        fun e(msg: String)
 
-        fun e(tag: String, msg: String)
-
-        fun printErrStackTrace(tag: String, tr: Throwable, format: String)
+        fun printErrStackTrace(tr: Throwable, format: String)
 
     }
 

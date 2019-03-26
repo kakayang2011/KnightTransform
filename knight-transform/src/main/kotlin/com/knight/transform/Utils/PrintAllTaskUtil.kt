@@ -40,7 +40,7 @@ object PrintAllTaskUtil {
             timeCostMap.forEach {
                 sb.append("\n${it.key} [${it.value.totalTime}]")
             }
-            Log.e(TAG, sb.toString())
+            Log.e( sb.toString())
         }
 
         override fun projectsLoaded(p0: Gradle) {

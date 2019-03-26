@@ -21,7 +21,7 @@ class ScanWeaver(iPlugin: IPlugin) : IWeaver(iPlugin = iPlugin) {
     val TAG = "ScanWeaver"
     override fun weaveJar(inputJar: File, outputJar: File) {
         val inputZip = ZipFile(inputJar)
-        Log.d(TAG, "scanJar is ${inputJar.name}")
+        Log.d("scanJar is ${inputJar.name}")
         inputZip.entries().toList().forEach { entry ->
             val outEntry = ZipEntry(entry.name)
             if (isWeaveableClass(outEntry.name.replace("/", "."))) {

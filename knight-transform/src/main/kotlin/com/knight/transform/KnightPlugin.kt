@@ -36,15 +36,14 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Proj
         android = project.extensions.getByType(aClass)
         extension = createExtensions()
         context = getContext(project, extension, android)
-        if (isNeedPrintMapAndTaskCostTime) {
-            if (android is AppExtension) {
-                (android as AppExtension).applicationVariants.all {
-                    createTask(it, context)
-                }
-            } else if (android is LibraryExtension) {
-                (android as LibraryExtension).libraryVariants.all {
-                    createTask(it, context)
-                }
+        if (android is AppExtension) {
+            (android as AppExtension).applicationVariants.all {
+                createTask(it, context)
+
+            }
+        } else if (android is LibraryExtension) {
+            (android as LibraryExtension).libraryVariants.all {
+                createTask(it, context)
             }
         }
         if (isNeedWeaveClass()) {
@@ -73,6 +72,9 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Proj
     }
 
     private fun createWriteMappingTask(variant: BaseVariant, context: BaseContext<*>) {
+        if (!isNeedPrintMapAndTaskCostTime) {
+            return
+        }
         val mappingTaskName = "${transform.name}outputMappingFor${variant.name.capitalize()}"
         val myTask = project.tasks.getByName("transformClassesWith${transform.name}For${variant.name.capitalize()}")
         myTask.apply {

@@ -45,7 +45,7 @@ open class KnightTransform(private val context: BaseContext<*>, val iPlugin: IPl
             val startTime = System.currentTimeMillis()
             TransFormUtil.transform(context, it, invocation)
             val costTime = System.currentTimeMillis() - startTime
-            Log.i(name, "$name : scan code has costed $costTime ms")
+            Log.i("$name : scan code has costed $costTime ms")
         }
         codeWeaver?.run {
             val startTime = System.currentTimeMillis()
@@ -53,7 +53,7 @@ open class KnightTransform(private val context: BaseContext<*>, val iPlugin: IPl
             isNeedScanRClass = iPlugin.isNeedScanWeaveRClass()
             TransFormUtil.transform(context, this, invocation)
             val costTime = System.currentTimeMillis() - startTime
-            Log.i(name, "$name : weave code has costed $costTime ms")
+            Log.i("$name : weave code has costed $costTime ms")
         }
 
     }

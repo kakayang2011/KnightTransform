@@ -46,10 +46,11 @@ dependencies {
     implementation "com.knight.component:componentlibrary:$COMPONENT_LIBRARY_VERSION"
 }
 
-apply plugin: 'com.knight.transform.shrinkinline'
-shrinkInlineConfig {
-    log = true
-}
+//apply plugin: 'com.knight.transform.shrinkinline'
+//shrinkInlineConfig {
+//    log = true
+//    logLevel = 2
+//}
 
 //apply plugin: 'com.knight.transform.tinyImage'
 //tinyImage {

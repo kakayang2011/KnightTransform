@@ -14,9 +14,9 @@ object revertUtil {
                 val process = Runtime.getRuntime().exec("git checkout ${imageFile.absolutePath}")
                 process.waitFor()
 //                val bufferReader = BufferedReader(InputStreamReader(process.inputStream))
-//                Log.i(TAG, "revertFile is  : ${bufferReader.readLine()}")
+//                Log.i( "revertFile is  : ${bufferReader.readLine()}")
             } catch (e: Exception) {
-                Log.i(TAG, "exception is  : ${e}")
+                Log.i( "exception is  : ${e}")
                 throw  GradleException("$e you should 'git init' this program")
             }
         }
@@ -28,9 +28,9 @@ object revertUtil {
             val process = Runtime.getRuntime().exec("git clean -df ${imageFile.absolutePath}")
             process.waitFor()
 //            val bufferReader = BufferedReader(InputStreamReader(process.inputStream))
-//            Log.i(TAG, "removeFile is  : ${bufferReader.readLine()}")
+//            Log.i( "removeFile is  : ${bufferReader.readLine()}")
         } catch (e: Exception) {
-            Log.i(TAG, "exception is  : ${e}")
+            Log.i( "exception is  : ${e}")
             throw  GradleException("$e you should 'git init' this program")
         }
     }

@@ -39,7 +39,7 @@ object ImageUtil {
                 val img = ImageIO.read(imageFile)
                 img.colorModel.hasAlpha()
             } catch (e: Exception) {
-                Log.i(TAG, e.message ?: "")
+                Log.i( e.message ?: "")
                 false
             }
         } else {
@@ -78,7 +78,7 @@ object ImageUtil {
             val process = Runtime.getRuntime().exec(cdStr)
             process.waitFor()
         } catch (e: Exception) {
-            Log.i(TAG, "exception is  : ${e}")
+            Log.i( "exception is  : ${e}")
             throw  GradleException("$e \n you should download resource at \n $url \n, and put the unzip tinytools in the root of project's directory")
         }
     }

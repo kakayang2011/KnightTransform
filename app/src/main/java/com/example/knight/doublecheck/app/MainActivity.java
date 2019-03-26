@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 public class MainActivity extends Activity implements View.OnClickListener {
     private int i = 0;
 
@@ -40,6 +42,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                Log.i("123", Test.Status.SCUUESS.toString());
 //            }
 //        });
+
+        new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+
 
         ((ImageView) findViewById(R.id.image)).setImageResource(R.drawable.origin);
 

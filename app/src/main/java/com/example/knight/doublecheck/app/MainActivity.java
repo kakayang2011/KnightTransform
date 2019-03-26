@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    int i = 0;
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

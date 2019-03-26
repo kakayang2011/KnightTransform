@@ -42,7 +42,7 @@ class ServiceManager {
             attachBaseContext.isAccessible = true
             attachBaseContext.invoke(it, context)
         }
-        Log.i(TAG, "attachBaseContext: " + moduleApplications.size)
+        Log.i( "attachBaseContext: " + moduleApplications.size)
 
     }
 
@@ -50,7 +50,7 @@ class ServiceManager {
         moduleApplications.forEach {
             it.onCreate()
         }
-        Log.i(TAG, "onCreate: " + moduleApplications.size)
+        Log.i( "onCreate: " + moduleApplications.size)
 
     }
 
@@ -81,17 +81,17 @@ class ServiceManager {
     // 同步调用ModuleService的实例，各个module的实例是在这里被创建的
     @Synchronized
     fun <T> getService(classType: Class<T>): T? {
-        Log.i(TAG, "getService1: " + serviceImplMap.size)
+        Log.i( "getService1: " + serviceImplMap.size)
         val classNewInstance = serviceImplInstanceMap[classType]
         classNewInstance?.let {
-            Log.i(TAG, "getService2: $it")
+            Log.i( "getService2: $it")
             return it as T
         } ?: serviceImplMap[classType]?.let {
             return (it.newInstance() as T).apply {
-                Log.i(TAG, "getService3: $this")
+                Log.i( "getService3: $this")
                 serviceImplInstanceMap[classType] = this as Any
             }
-        } ?: Log.e(TAG, "no ${classType.name} type, please checkout your code~~~")
+        } ?: Log.e( "no ${classType.name} type, please checkout your code~~~")
 
         return null
     }

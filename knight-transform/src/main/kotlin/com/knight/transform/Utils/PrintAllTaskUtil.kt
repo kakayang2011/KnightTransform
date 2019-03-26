@@ -3,6 +3,7 @@ package com.knight.transform.Utils
 import com.knight.transform.BaseContext
 import org.gradle.BuildListener
 import org.gradle.BuildResult
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
@@ -20,7 +21,7 @@ object PrintAllTaskUtil {
     //用来记录 task 的执行时长等信息
     val timeCostMap = LinkedHashMap<String, TaskExecTimeInfo>()
 
-    val taskExecutionListener = object : TaskExecutionListener {
+    private val taskExecutionListener = object : TaskExecutionListener {
         override fun beforeExecute(task: Task) {
             timeCostMap[task.path] = TaskExecTimeInfo(System.currentTimeMillis(), 0, task.path, 0)
         }
@@ -33,14 +34,14 @@ object PrintAllTaskUtil {
         }
     }
 
-    val buildListener = object : BuildListener {
+    private val buildListener = object : BuildListener {
         override fun buildFinished(buildResult: BuildResult) {
             val sb = StringBuilder()
             sb.append("build finished, now println all task execution time: ")
             timeCostMap.forEach {
                 sb.append("\n${it.key} [${it.value.totalTime}]")
             }
-            Log.e( sb.toString())
+            Log.e(sb.toString())
         }
 
         override fun projectsLoaded(p0: Gradle) {
@@ -60,6 +61,11 @@ object PrintAllTaskUtil {
     fun printAllTasks(context: BaseContext<*>) {
         context.project.gradle.addListener(taskExecutionListener)
         context.project.gradle.addBuildListener(buildListener)
+    }
+
+    fun printAllTasks(project: Project) {
+        project.gradle.addListener(taskExecutionListener)
+        project.gradle.addBuildListener(buildListener)
     }
 }
 

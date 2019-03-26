@@ -121,11 +121,17 @@ object Log {
     }
 
     private fun getMethodNames(logLevel: LogLevel): String {
-        val stack = Thread.currentThread().stackTrace[5]
-        val split = stack.className.split('.')
-        return StringBuilder().append(TOP_BORDER).append(BR)
-                .append("║ ").append("[" + logLevel.name + "][" + split[split.size - 1] + "]%s").append(BR)
-                .append(BOTTOM_BORDER).toString()
+        return if (Thread.currentThread().stackTrace.size >= 5) {
+            val stack = Thread.currentThread().stackTrace[5]
+            val split = stack.className.split('.')
+            StringBuilder().append(TOP_BORDER).append(BR)
+                    .append("║ ").append("[" + logLevel.name + "][" + split[split.size - 1] + "]%s").append(BR)
+                    .append(BOTTOM_BORDER).toString()
+        } else {
+            StringBuilder().append(TOP_BORDER).append(BR)
+                    .append("║ ").append("[" + logLevel.name + "]%s").append(BR)
+                    .append(BOTTOM_BORDER).toString()
+        }
     }
 
 

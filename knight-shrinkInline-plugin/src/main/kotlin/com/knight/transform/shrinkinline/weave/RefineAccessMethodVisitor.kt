@@ -20,7 +20,7 @@ class RefineAccessMethodVisitor(mv: MethodVisitor, val context: Context, val acc
     override fun visitFieldInsn(opcode: Int, owner: String?, name: String?, descriptor: String?) {
         super.visitFieldInsn(opcode, owner, name, descriptor)
         refinedInsns.add(FieldInsnNode(opcode, owner, name, descriptor))
-        Log.d(TAG, String.format("add Filed target( className = [%s], methodName = [%s], desc = [%s] ) ",
+        Log.i(String.format("add Filed target( className = [%s], methodName = [%s], desc = [%s] ) ",
                 owner, name, descriptor))
         accessMethodEntity.target = context.addAccessedMemebers(owner!!, name!!, descriptor!!, true)
     }
@@ -29,7 +29,7 @@ class RefineAccessMethodVisitor(mv: MethodVisitor, val context: Context, val acc
         super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
         refinedInsns.add(MethodInsnNode(opcode, owner, name, descriptor, isInterface))
         accessMethodEntity.target = context.addAccessedMemebers(owner!!, name!!, descriptor!!, false)
-        Log.d(TAG, String.format("add Method target( className = [%s], methodName = [%s], desc = [%s] ) ",
+        Log.i(String.format("add Method target( className = [%s], methodName = [%s], desc = [%s] ) ",
                 owner, name, descriptor))
     }
 

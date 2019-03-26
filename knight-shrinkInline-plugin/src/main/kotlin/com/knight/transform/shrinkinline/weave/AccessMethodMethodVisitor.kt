@@ -14,7 +14,7 @@ class AccessMethodMethodVisitor(mv: MethodVisitor, val context: Context, val own
     override fun visitMethodInsn(opcode: Int, owner: String?, name: String?, desc: String?, isInterface: Boolean) {
         // private调用
         if (opcode == Opcodes.INVOKESPECIAL && context.isPrivateAccessMember(owner!!, name!!, desc!!)) {
-            Log.d(TAG, String.format("In method( className = [%s], methodName = [%s], desc = [%s] ) code " + ",alter method( className = [%s], methodName = [%s], desc = [%s] ) invoke instruction, from INVOKESPECIAL to INVOKEVIRTUAL",
+            Log.i(String.format("In method( className = [%s], methodName = [%s], desc = [%s] ) code " + ",alter method( className = [%s], methodName = [%s], desc = [%s] ) invoke instruction, from INVOKESPECIAL to INVOKEVIRTUAL",
                     this.owner, this.name, this.desc, owner, name, desc))
             // This method access was changed to be public
             super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, owner, name, desc, isInterface)
@@ -30,7 +30,7 @@ class AccessMethodMethodVisitor(mv: MethodVisitor, val context: Context, val own
             super.visitMethodInsn(opcode, owner, name, desc, isInterface)
             return
         }
-        Log.d(TAG, String.format("In method( className = [%s], methodName = [%s], desc = [%s] ) code " + ",inline method( className = [%s], methodName = [%s], desc = [%s] ) invoke",
+        Log.i(String.format("In method( className = [%s], methodName = [%s], desc = [%s] ) code " + ",inline method( className = [%s], methodName = [%s], desc = [%s] ) invoke",
                 this.owner, this.name, this.desc, owner, name, desc))
 
 

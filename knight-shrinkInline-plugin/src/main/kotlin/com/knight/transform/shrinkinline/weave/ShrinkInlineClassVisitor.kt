@@ -25,8 +25,8 @@ open class ShrinkInlineClassVisitor(context: Context, cv: ClassVisitor) : BaseCl
                 access = access or Opcodes.ACC_PUBLIC
             }
 
-            Log.d(TAG, String.format("Change Field( className = [%s], methodName = [%s], desc = [%s] ) access, from [%s] to be not private",
-                    className, name, descriptor, access.toString()))
+            Log.i(String.format("Change Field( className = [%s], methodName = [%s], desc = [%s] ) access,  from [%s] to  be not private",
+                    className, name, descriptor, ac))
 
         }
         return super.visitField(access, name, descriptor, signature, value)
@@ -36,7 +36,7 @@ open class ShrinkInlineClassVisitor(context: Context, cv: ClassVisitor) : BaseCl
     override fun visitMethod(ac: Int, name: String?, descriptor: String?, signature: String?, exceptions: Array<out String>?): MethodVisitor? {
         var access = ac
         if (context.isAccessMethod(className, name!!, descriptor!!)) {
-            Log.d(TAG, String.format("Access$ method : className = [%s], methodName = [%s], desc = [%s]", className, name, descriptor))
+            Log.d(String.format("Access$ method : className = [%s], methodName = [%s], desc = [%s]", className, name, descriptor))
             return null
         }
         if (context.isAccessMember(className, name, descriptor)) {
@@ -46,8 +46,8 @@ open class ShrinkInlineClassVisitor(context: Context, cv: ClassVisitor) : BaseCl
                 access = access and Opcodes.ACC_PROTECTED.inv()
                 access = access or Opcodes.ACC_PUBLIC
             }
-            Log.d(TAG, String.format("Change method( className = [%s], methodName = [%s], desc = [%s] ) access, from [%s] to be not private",
-                    className, name, descriptor, access.toString()))
+            Log.i(String.format("Change method( className = [%s], methodName = [%s], desc = [%s] ) access, from [%s] to be not private",
+                    className, name, descriptor, ac))
         }
         val mv = super.visitMethod(access, name, descriptor, signature, exceptions)
 

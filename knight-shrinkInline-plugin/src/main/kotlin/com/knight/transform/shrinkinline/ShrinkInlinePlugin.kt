@@ -19,8 +19,11 @@ class ShrinkInlinePlugin : KnightPlugin<ShrinkInlineExtension, Context>() {
     override fun createExtensions(): ShrinkInlineExtension {
         project.extensions.create(EXTENSION_NAME, ShrinkInlineExtension::class.java)
         (project.extensions.getByName(EXTENSION_NAME) as ShrinkInlineExtension).apply {
-            context = Context(project, this)
-            Log.isOpenLog = this.log
+            project.afterEvaluate {
+                context = Context(it, this)
+                Log.isOpenLog = this.log
+                Log.setLogLevel(this.logLevel)
+            }
             return this
         }
     }

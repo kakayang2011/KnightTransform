@@ -30,7 +30,7 @@ then
    moduleName="knight-component-library"
    version="COMPONENT_LIBRARY_VERSION"
 else
-   echo "please input ./upload [transform | bytek | doublecheck | shrinkr | component | componentlibrary] "
+   echo "please input ./upload [transform | tinyImage | bytek | doublecheck | shrinkr | component | componentlibrary] "
    exit 1
 fi
 
@@ -62,7 +62,7 @@ then
     git add ./gradle.properties
     git commit -m "feature: upload version code $str"
 else
-    echo "Failed~~~~ please wait~~"
+    echo "Failed~~~~ please check~~"
     sed -i "" "s/${str}/${origin}/g" gradle.properties
     rm -f log.txt
     exit 1

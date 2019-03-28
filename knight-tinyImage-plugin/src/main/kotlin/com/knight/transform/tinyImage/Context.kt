@@ -19,6 +19,8 @@ class Context(project: Project,
 
     lateinit var variant: BaseVariant
 
+    val allPictureList = ArrayList<File>()
+
     val compressPngList = ArrayList<File>()
     val convertWebpList = ArrayList<File>()
 

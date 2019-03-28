@@ -6,6 +6,7 @@ import com.knight.transform.tinyImage.interceptor.ITaskInterceptor
 import com.knight.transform.tinyImage.interceptor.TaskChain
 import com.knight.transform.tinyImage.utils.DownLoadUtil
 import de.undercouch.gradle.tasks.download.Download
+import org.gradle.internal.impldep.aQute.libg.gzip.GZipUtils
 import java.io.File
 
 class DownLoadTinyTaskInterceptor : ITaskInterceptor {

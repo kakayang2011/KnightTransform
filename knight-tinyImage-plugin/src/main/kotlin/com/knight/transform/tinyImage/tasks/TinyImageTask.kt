@@ -20,16 +20,22 @@ open class TinyImageTask : DefaultTask() {
 
     @TaskAction
     fun startCompressPic() {
-        MergeResources::class
-                .java.declaredMethods.firstOrNull { it.name == "computeResourceSetList" && it.parameterCount == 0 }
-                ?.run {
-                    isAccessible = true
-                    (invoke(variant?.mergeResources) as? Iterable<*>)?.mapNotNull { resourceSet ->
-                        resourceSet?.javaClass?.methods?.find { it.name == "getSourceFiles" && it.parameterCount == 0 }?.invoke(resourceSet) as? Iterable<File>
-                    }?.flatten()
-                }?.forEach {
-                    searchTargetFiles(it)
-                }
+        if (context.allPictureList.isEmpty()) {
+            MergeResources::class
+                    .java.declaredMethods.firstOrNull { it.name == "computeResourceSetList" && it.parameterCount == 0 }
+                    ?.run {
+                        isAccessible = true
+                        (invoke(variant?.mergeResources) as? Iterable<*>)?.mapNotNull { resourceSet ->
+                            resourceSet?.javaClass?.methods?.find { it.name == "getSourceFiles" && it.parameterCount == 0 }?.invoke(resourceSet) as? Iterable<File>
+                        }?.flatten()
+                    }?.forEach {
+                        searchTargetFiles(it)
+                    }
+        } else {
+            context.allPictureList.forEach {
+                searchTargetFiles(it)
+            }
+        }
         context.bigImageList.let {
             if (it.isNotEmpty()) {
                 val stringBuffer = StringBuffer("You have big Img!!!! please check them \n")

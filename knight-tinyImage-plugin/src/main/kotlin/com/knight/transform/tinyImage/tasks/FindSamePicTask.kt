@@ -43,25 +43,30 @@ open class FindSamePicTask : DefaultTask() {
                 putSamePicture(u)
             }
         }
-        var hasSamPic = false
+        var hasSamePic = false
         val stringBuffer = StringBuffer("You have Same Picture!!!! please check them ,\n the output file at ${samePicFile.path}")
+        var totalSaveSize = 0L
         context.samePictureMap.forEach { t, u ->
             if (u.size > 1) {
                 stringBuffer.append("\n").append(Log.MIDDLE_BORDER)
                 for (i: Int in 0 until u.size) {
+                    val file = u[i]
                     stringBuffer.append("\n")
-                    stringBuffer.append(u[i].absoluteFile)
+                    stringBuffer.append(file.absoluteFile)
+                    if (i != u.size - 1) {
+                        Log.i("${file.name}'s size is : ${file.length()}")
+                        totalSaveSize += file.length()
+                    }
                 }
-                hasSamPic = true
+                hasSamePic = true
             }
         }
-        if (hasSamPic) {
-            Log.w(stringBuffer.toString())
+        if (hasSamePic) {
+            val sizeStr = if (totalSaveSize < (1024f * 1024f)) String.format("%.3fKB", totalSaveSize.toFloat() / (1024f))
+            else String.format("%.3fM", totalSaveSize.toFloat() / (1024f * 1024f))
+            Log.w(stringBuffer.append("\n \n If you delete duplicate images, you will save ${sizeStr}").toString())
         }
-
-
         samePicFile.writeText(stringBuffer.toString())
-
     }
 
     private fun putSamePicture(pictures: ArrayList<File>) {
@@ -89,6 +94,7 @@ open class FindSamePicTask : DefaultTask() {
             }
         } else if (ImageUtil.isImage(file)) {
             processImage(context, file)
+            context.allPictureList.add(file)
         }
     }
 

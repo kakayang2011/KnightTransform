@@ -1,5 +1,6 @@
 package com.knight.transform.tinyImage.interceptor.impl
 
+import com.android.builder.model.AndroidProject
 import com.knight.transform.Utils.Timer
 import com.knight.transform.tinyImage.interceptor.ITaskInterceptor
 import com.knight.transform.tinyImage.interceptor.TaskChain
@@ -20,6 +21,10 @@ class FindSamePicTaskInterceptor : ITaskInterceptor {
         val findSamePicTask = project.tasks.create(findSamePicTaskName, FindSamePicTask::class.java).apply {
             this.variant = variant
             this.context = chain.request().context
+            outputMappingFile.set(com.android.utils.FileUtils.join(project.buildDir,
+                    AndroidProject.FD_OUTPUTS, "samePicture",
+                    variant.name, "${findSamePicTaskName}samePicture.txt"))
+
         }
 
         mergeResourcesTask?.let { task ->

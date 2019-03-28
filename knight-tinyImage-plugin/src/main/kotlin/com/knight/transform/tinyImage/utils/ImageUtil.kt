@@ -20,6 +20,14 @@ object ImageUtil {
                 ) && !file.name.endsWith(Context.DOT_9PNG)
     }
 
+    fun isPicture(file: File): Boolean {
+        return (file.name.endsWith(Context.WEBP) ||
+                file.name.endsWith(Context.JPG) ||
+                file.name.endsWith(Context.PNG) ||
+                file.name.endsWith(Context.JPEG)
+                ) && !file.name.endsWith(Context.DOT_9PNG)
+    }
+
 
     fun isJPG(file: File): Boolean {
         return file.name.endsWith(Context.JPG) || file.name.endsWith(Context.JPEG)
@@ -39,7 +47,7 @@ object ImageUtil {
                 val img = ImageIO.read(imageFile)
                 img.colorModel.hasAlpha()
             } catch (e: Exception) {
-                Log.i( e.message ?: "")
+                Log.i(e.message ?: "")
                 false
             }
         } else {
@@ -78,7 +86,7 @@ object ImageUtil {
             val process = Runtime.getRuntime().exec(cdStr)
             process.waitFor()
         } catch (e: Exception) {
-            Log.i( "exception is  : ${e}")
+            Log.i("exception is  : ${e}")
             throw  GradleException("$e \n you should download resource at \n $url \n, and put the unzip tinytools in the root of project's directory")
         }
     }

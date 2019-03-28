@@ -6,8 +6,10 @@ import com.knight.transform.Utils.Log
 import com.knight.transform.tinyImage.Context
 import com.knight.transform.tinyImage.utils.ImageUtil
 import org.apache.commons.codec.digest.DigestUtils
+import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.FileInputStream
@@ -17,10 +19,15 @@ open class FindSamePicTask : DefaultTask() {
 
     var variant: BaseVariant? = null
     lateinit var context: Context
+    @OutputFile
+    var outputMappingFile = newOutputFile()
 
 
     @TaskAction
     fun startComparePic() {
+        val samePicFile = outputMappingFile.get().asFile
+
+        FileUtils.touch(samePicFile)
         MergeResources::class
                 .java.declaredMethods.firstOrNull { it.name == "computeResourceSetList" && it.parameterCount == 0 }
                 ?.run {
@@ -37,10 +44,10 @@ open class FindSamePicTask : DefaultTask() {
             }
         }
         var hasSamPic = false
-        val stringBuffer = StringBuffer("You have Same Picture!!!! please check them ")
+        val stringBuffer = StringBuffer("You have Same Picture!!!! please check them ,\n the output file at ${samePicFile.path}")
         context.samePictureMap.forEach { t, u ->
             if (u.size > 1) {
-                stringBuffer.append(Log.MIDDLE_BORDER)
+                stringBuffer.append("\n").append(Log.MIDDLE_BORDER)
                 for (i: Int in 0 until u.size) {
                     stringBuffer.append("\n")
                     stringBuffer.append(u[i].absoluteFile)
@@ -51,6 +58,10 @@ open class FindSamePicTask : DefaultTask() {
         if (hasSamPic) {
             Log.w(stringBuffer.toString())
         }
+
+
+        samePicFile.writeText(stringBuffer.toString())
+
     }
 
     private fun putSamePicture(pictures: ArrayList<File>) {

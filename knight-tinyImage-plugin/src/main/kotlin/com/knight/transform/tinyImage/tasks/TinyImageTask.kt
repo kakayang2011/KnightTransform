@@ -12,10 +12,6 @@ import java.io.File
 
 open class TinyImageTask : DefaultTask() {
 
-    companion object {
-        val TAG = "TinyImageTask"
-    }
-
     var variant: BaseVariant? = null
     lateinit var context: Context
     var originPictureTotalSize = 0L

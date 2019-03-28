@@ -7,10 +7,6 @@ import org.gradle.api.tasks.TaskAction
 
 open class RevertTask : DefaultTask() {
 
-    companion object {
-        val TAG = "RevertTask"
-    }
-
     lateinit var context: Context
 
 

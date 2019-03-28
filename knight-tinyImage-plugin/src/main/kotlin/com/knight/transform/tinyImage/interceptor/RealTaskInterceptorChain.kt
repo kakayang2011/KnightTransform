@@ -1,8 +1,5 @@
 package com.knight.transform.tinyImage.interceptor
 
-import com.knight.transform.Utils.Log
-import org.gradle.api.GradleException
-
 class RealTaskInterceptorChain(val index: Int, val interceptors: ArrayList<ITaskInterceptor>, val taskParams: TaskParams) : TaskChain {
 
 
@@ -10,7 +7,6 @@ class RealTaskInterceptorChain(val index: Int, val interceptors: ArrayList<ITask
 
     override fun process() {
         if (index >= interceptors.size) {
-            Log.e("should not more step")
             return
         }
 

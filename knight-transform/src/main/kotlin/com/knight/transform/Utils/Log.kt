@@ -11,7 +11,7 @@ object Log {
      */
     private val TOP_LEFT_CORNER = '╔'
     private val BOTTOM_LEFT_CORNER = '╚'
-    private val MIDDLE_CORNER = '╟'
+    private val MIDDLE_CORNER = '─'
     private val HORIZONTAL_DOUBLE_LINE = '║'
     private val DOUBLE_DIVIDER = "═════════════════════════════════════════════════"
     private val SINGLE_DIVIDER = "─────────────────────────────────────────────────"

@@ -1,7 +1,7 @@
-package com.knight.transform.weave
+package com.knight.transform.doubleCheck.weave
 
-import com.knight.transform.Context
-import com.knight.transform.extension.DoubleCheckExtension
+import com.knight.transform.doubleCheck.Context
+import com.knight.transform.doubleCheck.extension.DoubleCheckExtension
 
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.Label

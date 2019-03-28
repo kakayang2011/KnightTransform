@@ -1,0 +1,25 @@
+apply from: rootProject.file('gradle/buildcontext.gradle')
+
+loadSysProperties("$rootDir/local.properties")
+
+loadSysProperties("$rootDir/gradle.properties")
+
+ext.BuildContext = initBuildContext()
+
+def loadSysProperties(sourceFileName) {
+    try {
+        def propFile = new File(sourceFileName)
+        if (!propFile.canRead()) return
+        def loadFlag = "load_${propFile}_system_properties"
+        if (System.properties[loadFlag]) return
+
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(propFile))
+        for (Map.Entry property in properties) {
+            System.properties[property.key] = property.value
+            println "load system property: ${property.key} -> ${System.properties[property.key]} from ${propFile}"
+        }
+        System.properties[loadFlag] = true
+    } catch (e) {
+    }
+}

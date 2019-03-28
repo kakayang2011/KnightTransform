@@ -1,6 +1,7 @@
-package com.knight.transform
+package com.knight.transform.doubleCheck
 
-import com.android.build.gradle.AppExtension
+import com.knight.transform.BaseContext
+import com.knight.transform.BaseExtension
 import org.gradle.api.Project
 
 class Context(project: Project,

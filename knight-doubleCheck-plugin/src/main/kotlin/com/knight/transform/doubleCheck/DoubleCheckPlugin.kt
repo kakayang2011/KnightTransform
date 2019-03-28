@@ -1,9 +1,9 @@
-package com.knight.transform
+package com.knight.transform.doubleCheck
 
-import com.android.build.api.transform.Transform
 import com.android.build.gradle.TestedExtension
-import com.knight.transform.extension.DoubleCheckExtension
-import com.knight.transform.weave.DoubleCheckModifyClassAdapter
+import com.knight.transform.doubleCheck.extension.DoubleCheckExtension
+import com.knight.transform.doubleCheck.weave.DoubleCheckModifyClassAdapter
+import com.knight.transform.KnightPlugin
 import org.gradle.api.Project
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
@@ -11,7 +11,7 @@ import org.objectweb.asm.ClassWriter
 class DoubleCheckPlugin : KnightPlugin<DoubleCheckExtension, Context>() {
 
 
-    private val EXTENSION_NAME = "doubleCheckConfig"
+    private val EXTENSION_NAME = "doubleCheck"
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
     override fun createExtensions(): DoubleCheckExtension {

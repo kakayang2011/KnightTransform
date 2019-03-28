@@ -1,11 +1,10 @@
-package com.knight.transform.weave
+package com.knight.transform.doubleCheck.weave
 
-import com.knight.transform.Context
+import com.knight.transform.doubleCheck.Context
+import com.knight.transform.weave.BaseClassVisitor
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
-import org.objectweb.asm.Opcodes
 import transform.Utils.ASMUtils
-import transform.task.WeavedClass
 
 open class DoubleCheckModifyClassAdapter(context: Context, cv: ClassVisitor) : BaseClassVisitor<Context>(context, cv) {
 

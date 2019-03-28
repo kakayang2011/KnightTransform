@@ -39,17 +39,14 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Proj
         if (android is AppExtension) {
             (android as AppExtension).applicationVariants.all {
                 createTask(it, context)
-
             }
         } else if (android is LibraryExtension) {
             (android as LibraryExtension).libraryVariants.all {
                 createTask(it, context)
             }
         }
-        if (isNeedWeaveClass()) {
-            transform = KnightTransform(context, this, ::getTransformName)
-            android.registerTransform(transform)
-        }
+        transform = KnightTransform(context, this, ::getTransformName)
+        android.registerTransform(transform)
     }
 
     abstract fun getTransformName(): String
@@ -63,9 +60,6 @@ abstract class KnightPlugin<E : BaseExtension, C : BaseContext<*>> : Plugin<Proj
         return null
     }
 
-    override fun isNeedWeaveClass(): Boolean {
-        return true
-    }
 
     open fun createTask(variant: BaseVariant, context: BaseContext<*>) {
         createWriteMappingTask(variant, context)

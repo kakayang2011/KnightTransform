@@ -13,9 +13,7 @@ import com.knight.transform.asm.ScanWeaver
 import transform.Utils.ASMUtils
 
 open class KnightTransform(private val context: BaseContext<*>, val iPlugin: IPlugin, val getTransformName: () -> String) : Transform() {
-    private val codeWeaver: CodeWeaver? = if (iPlugin.isNeedWeaveClass()) {
-        CodeWeaver(iPlugin)
-    } else null
+    private val codeWeaver: CodeWeaver = CodeWeaver(iPlugin)
     private val scanWeaver: ScanWeaver? = if (iPlugin.isNeedScanClass()) {
         ScanWeaver(iPlugin)
     } else null
@@ -47,7 +45,7 @@ open class KnightTransform(private val context: BaseContext<*>, val iPlugin: IPl
             val costTime = System.currentTimeMillis() - startTime
             Log.i("$name : scan code has costed $costTime ms")
         }
-        codeWeaver?.run {
+        codeWeaver.run {
             val startTime = System.currentTimeMillis()
             classloader = classLoader
             isNeedScanRClass = iPlugin.isNeedScanWeaveRClass()

@@ -1,21 +1,26 @@
-loadSysProperties("$rootDir/local.properties")
+class BuildContext {
+    boolean tinyImage
 
-loadSysProperties("$rootDir/gradle.properties")
+    boolean doubleCheck
 
-def loadSysProperties(sourceFileName) {
-    try {
-        def propFile = new File(sourceFileName)
-        if (!propFile.canRead()) return
-        def loadFlag = "load_${propFile}_system_properties"
-        if (System.properties[loadFlag]) return
-
-        Properties properties = new Properties()
-        properties.load(new FileInputStream(propFile))
-        for (Map.Entry property in properties) {
-            System.properties[property.key] = property.value
-            println "load system property: ${property.key} -> ${System.properties[property.key]} from ${propFile}"
-        }
-        System.properties[loadFlag] = true
-    } catch (e) {
-    }
+    boolean shrinkInline
+    boolean shrinkR
 }
+
+
+def initBuildContext() {
+    def context = new BuildContext()
+    parseEnv(context)
+    return context
+}
+
+
+def parseEnv(context) {
+    context.tinyImage = System.getProperty("tinyImage", 'false') == 'true'
+    context.doubleCheck = System.getProperty("doubleCheck", 'false') == 'true'
+    context.shrinkInline = System.getProperty("shrinkInline", 'false') == 'true'
+    context.shrinkR = System.getProperty("shrinkR", 'false') == 'true'
+
+}
+
+ext.initBuildContext = this.&initBuildContext

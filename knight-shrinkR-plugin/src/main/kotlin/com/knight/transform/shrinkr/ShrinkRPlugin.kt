@@ -12,7 +12,7 @@ import org.objectweb.asm.ClassWriter
 class ShrinkRPlugin : KnightPlugin<ShrinkRExtension, Context>() {
 
 
-    private val EXTENSION_NAME = "shrinkRConfig"
+    private val EXTENSION_NAME = "shrinkR"
     override val isNeedPrintMapAndTaskCostTime: Boolean = true
 
     override fun createExtensions(): ShrinkRExtension {

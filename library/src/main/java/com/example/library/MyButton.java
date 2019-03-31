@@ -3,10 +3,11 @@ package com.example.library;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-public class MyButton extends Button implements View.OnClickListener {
+import androidx.appcompat.widget.AppCompatButton;
+
+public class MyButton extends AppCompatButton implements View.OnClickListener {
     int i = 0;
 
     public MyButton(Context context) {

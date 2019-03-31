@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyView extends android.support.v7.widget.AppCompatTextView implements View.OnClickListener {
+import androidx.appcompat.widget.AppCompatTextView;
+
+public class MyView extends AppCompatTextView implements View.OnClickListener {
     int i = 0;
 
     public MyView(Context context) {

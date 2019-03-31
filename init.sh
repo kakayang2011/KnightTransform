@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-echo "begin init project~~"
+#echo "begin init project~~"
 
-list="knight-transform knight-tinyImage-plugin knight-doubleCheck-plugin knight-shrinkR-plugin  knight-doubleCheck-library knight-shrinkInline-plugin library"
+list="knight-transform knight-doubleCheck-library library"
 
 for state in ${list}
 do
@@ -19,20 +19,30 @@ do
     rm -f log.txt
 done
 
-#project build.gradle
-#sed -i "" "/15/a tinyImage=false" local.properties
-line=`sed -n "$=" local.properties`
-sed -i "" "$line a\\
-tinyImage=true" local.properties
+plugin=("knight-tinyImage-plugin" "knight-doubleCheck-plugin" "knight-shrinkR-plugin" "knight-shrinkInline-plugin")
+pluginSwitch=("tinyImage" "doubleCheck" "shrinkR" "shrinkInline")
 
-line=`sed -n "$=" local.properties`
-sed -i "" "$line a\\
-doubleCheck=true" local.properties
+for (( i = 0; i < ${#plugin[@]}; ++i )); do
+    state=${plugin[i]}
+    switch=${pluginSwitch[i]}
+    ./gradlew clean :${state}:uploadArchives --stacktrace 2>&1| tee log.txt
+    buildResult=`grep "BUILD FAILED" log.txt`
+    if [[ ${buildResult} =~ "BUILD FAILED" ]]
+    then
+        echo "please check your project"
+        rm -f log.txt
+        exit 1
+    else
+        localProperties=`grep ${switch} local.properties`
+        if [[ ${buildResult} =~ "BUILD FAILED" ]]
+        then
+            echo "already exit ${switch} word"
+        else
+            line=`sed -n "$=" local.properties`
+            sed -i "" "$line a\\
+            $switch=true" local.properties
+        fi
+    fi
+    rm -f log.txt
+done
 
-line=`sed -n "$=" local.properties`
-sed -i "" "$line a\\
-shrinkInline=true" local.properties
-
-line=`sed -n "$=" local.properties`
-sed -i "" "$line a\\
-shrinkR=true" local.properties

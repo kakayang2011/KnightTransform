@@ -2,7 +2,7 @@
 
 echo "begin init project~~"
 
-list="knight-transform knight-tinyImage-plugin knight-byteK knight-doubleCheck-plugin knight-shrinkR-plugin  knight-doubleCheck-library library"
+list="knight-transform knight-tinyImage-plugin knight-doubleCheck-plugin knight-shrinkR-plugin  knight-doubleCheck-library library"
 
 for state in ${list}
 do
@@ -20,7 +20,19 @@ do
 done
 
 #project build.gradle
-sed -i "" "s/\/\/k//g" build.gradle
+#sed -i "" "/15/a tinyImage=false" local.properties
+line=`sed -n "$=" local.properties`
+sed -i "" "$line a\\
+tinyImage=true" local.properties
 
-#app build.gradle
-sed -i "" "s/\/\/k//g" app/build.gradle
+line=`sed -n "$=" local.properties`
+sed -i "" "$line a\\
+doubleCheck=true" local.properties
+
+line=`sed -n "$=" local.properties`
+sed -i "" "$line a\\
+shrinkInline=true" local.properties
+
+line=`sed -n "$=" local.properties`
+sed -i "" "$line a\\
+shrinkR=true" local.properties

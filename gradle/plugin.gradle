@@ -18,6 +18,9 @@ if (BuildContext.doubleCheck) {
     doubleCheck {
         scanJar = true
     }
+    dependencies {
+        implementation "com.knight.doublecheck:doublechecklibrary:$DOUBLECHECK_LIBRARY_VERSION"
+    }
 }
 if (BuildContext.shrinkInline) {
     apply plugin: 'com.knight.transform.shrinkinline'
@@ -28,7 +31,6 @@ if (BuildContext.shrinkInline) {
 }
 
 if (BuildContext.shrinkR) {
-    println '11111111'
     apply plugin: 'com.knight.transform.shrinkr'
     shrinkR {
         keepList = [

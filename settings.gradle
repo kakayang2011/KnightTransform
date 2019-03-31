@@ -1,9 +1,3 @@
-include ':app',  ':library',':knight-doubleCheck-plugin',':knight-doubleCheck-library','knight-transform'
-include ':knight-shrinkR-plugin'
-include ':knight-byteK'
-include ':knight-component-plugin'
-include ':knight-component-library'
-
-include ':knight-shrinkInline-plugin'
+include ':app'
 
 include ':knight-tinyImage-plugin'

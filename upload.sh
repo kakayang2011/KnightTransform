@@ -1,38 +1,9 @@
 #!/bin/bash
 
-name=$1
-if [[ $name == "transform" ]]
-then
-   moduleName="knight-transform"
-   version="TRANSFORM_VERSION"
-elif [[ $name == "tinyImage" ]]
-then
-   moduleName="knight-tinyImage-plugin"
-   version="TINYIMAGE_VERSION"
-elif [[ $name == "bytek" ]]
-then
-   moduleName="knight-byteK"
-   version="BTYEK_VERSION"
-elif [[ $name == "doublecheck" ]]
-then
-   moduleName="knight-doubleCheck-plugin"
-   version="DOUBLECHECK_VERSION"
-elif [[ $name == "shrinkr" ]]
-then
-   moduleName="knight-shrinkR-plugin"
-   version="SHINKR_VERSION"
-elif [[ $name == "component" ]]
-then
-   moduleName="knight-component-plugin"
-   version="COMPONENT_VERSION"
-elif [[ $name == "componentlibrary" ]]
-then
-   moduleName="knight-component-library"
-   version="COMPONENT_LIBRARY_VERSION"
-else
-   echo "please input ./upload [transform | tinyImage | bytek | doublecheck | shrinkr | component | componentlibrary] "
-   exit 1
-fi
+
+moduleName="knight-tinyImage-plugin"
+version="TINYIMAGE_VERSION"
+
 
 echo "this word is $version"
 origin=`grep ${version} gradle.properties | awk '{print $1}'`
